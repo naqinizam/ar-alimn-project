@@ -1,135 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>AR ALIMN | Furniture Visualizer</title>
-    <link rel="stylesheet" href="/static/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AR ALIMN | Furniture Visualizer</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
 
-        #camera-stream {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            z-index: 1;
-        }
+    header, nav, .hero {
+      position: relative;
+      z-index: 3;
+    }
 
-        #chair {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200px;
-            transform: translate(-50%, -50%) scale(1);
-            touch-action: none;
-            z-index: 2;
-            cursor: grab;
-        }
+    #ar-container {
+      position: relative;
+      width: 100%;
+      height: auto;
+      text-align: center;
+      padding: 20px;
+    }
 
-        header, nav, .hero {
-            position: relative;
-            z-index: 3;
-        }
+    #camera-wrapper {
+      position: relative;
+      display: inline-block;
+      width: 400px;
+      height: 300px;
+      background-color: #000;
+    }
 
-        #ar-container {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-        }
-    </style>
+    #camera-stream {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border: 2px solid #ccc;
+      z-index: 1;
+    }
+
+    #chair {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 150px;
+      transform: translate(-50%, -50%) scale(1);
+      touch-action: none;
+      z-index: 2;
+      cursor: grab;
+    }
+
+    #start-btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #2c3e50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #start-btn:hover {
+      background-color: #1a242f;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <i class="fas fa-couch"></i>
-            <span>AR ALIMN</span>
-        </div>
-        <nav>
-            <a href="#"><i class="fas fa-home"></i> Home</a>
-            <a href="#"><i class="fas fa-box-open"></i> Products</a>
-            <a href="#"><i class="fas fa-magic"></i> AR Demo</a>
-            <a href="#"><i class="fas fa-envelope"></i> Contact</a>
-        </nav>
-    </header>
-
-    <section class="hero">
-        <h1>Redefine Your Space with AR</h1>
-        <p>Visualize furniture in your real environment before buying.</p>
-    </section>
-
-    <div id="ar-container">
-        <video id="camera-stream" autoplay playsinline></video>
+  <header>
+    <div class="logo">
+      <i class="fas fa-couch"></i>
+      <span>AR ALIMN</span>
     </div>
+    <nav>
+      <a href="#"><i class="fas fa-home"></i> Home</a>
+      <a href="#"><i class="fas fa-box-open"></i> Products</a>
+      <a href="#"><i class="fas fa-magic"></i> AR Demo</a>
+      <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+    </nav>
+  </header>
 
-    <script>
-        // Access camera
-        const video = document.getElementById('camera-stream');
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(stream => {
-                video.srcObject = stream;
-            })
-            .catch(err => {
-                console.error("Camera access error:", err);
-            });
+  <section class="hero">
+    <h1>Redefine Your Space with AR</h1>
+    <p>Visualize furniture in your real environment before buying.</p>
+  </section>
 
-        // Load chair image dynamically
-        fetch('/get_model')
-            .then(res => res.json())
-            .then(data => {
-                const img = document.createElement('img');
-                img.src = data.model_url;
-                img.alt = 'Chair';
-                img.id = 'chair';
-                document.getElementById('ar-container').appendChild(img);
+  <div id="ar-container">
+    <div id="camera-wrapper">
+      <video id="camera-stream" autoplay playsinline></video>
+    </div>
+    <button id="start-btn">Start AR</button>
+  </div>
 
-                makeInteractive(img);
-            });
+  <script>
+    const video = document.getElementById('camera-stream');
+    const btn = document.getElementById('start-btn');
+    const wrapper = document.getElementById('camera-wrapper');
 
-        // Drag and zoom
-        function makeInteractive(img) {
-            let isDragging = false;
-            let lastX = 0, lastY = 0;
-            let scale = 1;
+    btn.addEventListener('click', () => {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          video.srcObject = stream;
+          btn.style.display = "none"; // hide button after starting
+          loadChairImage(); // show image once camera starts
+        })
+        .catch(err => {
+          console.error("Camera access error:", err);
+          alert("Unable to access camera.");
+        });
+    });
 
-            img.addEventListener('mousedown', e => {
-                isDragging = true;
-                lastX = e.clientX;
-                lastY = e.clientY;
-                img.style.cursor = 'grabbing';
-            });
+    function loadChairImage() {
+      fetch('/get_model')
+        .then(res => res.json())
+        .then(data => {
+          const img = document.createElement('img');
+          img.src = data.model_url;
+          img.alt = 'Chair';
+          img.id = 'chair';
+          wrapper.appendChild(img);
 
-            window.addEventListener('mousemove', e => {
-                if (!isDragging) return;
-                const dx = e.clientX - lastX;
-                const dy = e.clientY - lastY;
-                img.style.left = `${img.offsetLeft + dx}px`;
-                img.style.top = `${img.offsetTop + dy}px`;
-                lastX = e.clientX;
-                lastY = e.clientY;
-            });
+          makeInteractive(img);
+        });
+    }
 
-            window.addEventListener('mouseup', () => {
-                isDragging = false;
-                img.style.cursor = 'grab';
-            });
+    function makeInteractive(img) {
+      let isDragging = false;
+      let lastX = 0, lastY = 0;
+      let scale = 1;
 
-            window.addEventListener('wheel', e => {
-                e.preventDefault();
-                const delta = e.deltaY > 0 ? -0.1 : 0.1;
-                scale = Math.max(0.1, scale + delta);
-                img.style.transform = `translate(-50%, -50%) scale(${scale})`;
-            });
-        }
-    </script>
+      img.addEventListener('mousedown', e => {
+        isDragging = true;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        img.style.cursor = 'grabbing';
+      });
+
+      window.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        const dx = e.clientX - lastX;
+        const dy = e.clientY - lastY;
+        img.style.left = `${img.offsetLeft + dx}px`;
+        img.style.top = `${img.offsetTop + dy}px`;
+        lastX = e.clientX;
+        lastY = e.clientY;
+      });
+
+      window.addEventListener('mouseup', () => {
+        isDragging = false;
+        img.style.cursor = 'grab';
+      });
+
+      window.addEventListener('wheel', e => {
+        if (!img) return;
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? -0.1 : 0.1;
+        scale = Math.max(0.1, scale + delta);
+        img.style.transform = `translate(-50%, -50%) scale(${scale})`;
+      });
+    }
+  </script>
 </body>
 </html>
