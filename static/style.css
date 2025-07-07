@@ -60,3 +60,18 @@ button {
     font-size: 0.9rem;
     color: #666;
 }
+/* Add to static/style.css */
+#ar-object {
+  display: block !important; /* Override any hiding */
+  border: 2px solid red;    /* Highlight the image */
+  opacity: 1 !important;    /* Ensure not transparent */
+}
+#ar-object {
+  z-index: 1000; /* Ensure it's above the camera feed */
+}
+.camera-container {
+  overflow: visible !important; /* Allow image to extend outside */
+}
+#ar-object {
+  background: rgba(255, 0, 0, 0.3); /* Semi-red background for visibility */
+}

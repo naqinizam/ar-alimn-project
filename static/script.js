@@ -47,13 +47,14 @@ document.getElementById("start-ar").addEventListener("click", async () => {
 
 // Position object in center of camera feed
 function initObjectPosition() {
-    const cameraFeed = document.getElementById("camera-feed");
-    const arObject = document.getElementById("ar-object");
-    
-    posX = cameraFeed.offsetWidth / 2 - arObject.offsetWidth / 2;
-    posY = cameraFeed.offsetHeight / 2 - arObject.offsetHeight / 2;
-    
-    updateObjectTransform();
+  const cameraFeed = document.getElementById("camera-feed");
+  const arObject = document.getElementById("ar-object");
+  
+  posX = cameraFeed.offsetWidth / 2 - arObject.offsetWidth / 2;
+  posY = cameraFeed.offsetHeight / 2 - arObject.offsetHeight / 2;
+  
+  console.log("Image position:", { posX, posY }); // Debug coordinates
+  updateObjectTransform();
 }
 
 // Zoom with mouse wheel/pinch
