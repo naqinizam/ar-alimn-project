@@ -3,46 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR ALIMN - Furniture Visualizer</title>
+    <title>AR ALIMN | Furniture Visualizer</title>
     <link rel="stylesheet" href="/static/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <div class="container">
-            <h1><i class="fas fa-couch"></i> AR ALIMN</h1>
-            <nav>
-                <a href="#"><i class="fas fa-home"></i> Home</a>
-                <a href="#"><i class="fas fa-cube"></i> Products</a>
-                <a href="#"><i class="fas fa-images"></i> Gallery</a>
-                <a href="#"><i class="fas fa-envelope"></i> Contact</a>
-            </nav>
+        <div class="logo">
+            <i class="fas fa-couch"></i>
+            <span>AR ALIMN</span>
         </div>
+        <nav>
+            <a href="#"><i class="fas fa-home"></i> Home</a>
+            <a href="#"><i class="fas fa-box-open"></i> Products</a>
+            <a href="#"><i class="fas fa-magic"></i> AR Demo</a>
+            <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+        </nav>
     </header>
 
-    <main>
-        <section id="ar-section">
-            <h2>Visualize Furniture in Your Space</h2>
-            <p>See how our furniture fits and looks in your home before you buy, using augmented reality technology.</p>
-            <button id="start-ar">
-                <i class="fas fa-camera"></i> START AR CAMERA
-            </button>
-        </section>
+    <section class="hero">
+        <h1>Redefine Your Space with AR</h1>
+        <p>Visualize furniture in your home before you buy, with our cutting-edge augmented reality technology.</p>
+        <button id="start-ar" class="btn">
+            <i class="fas fa-camera"></i> Start AR Experience
+        </button>
+    </section>
 
-        <section id="ar-view">
-            <h3>AR View Mode</h3>
+    <main class="ar-container">
+        <div class="ar-card">
             <div class="camera-container">
                 <video id="camera-feed" autoplay playsinline></video>
                 <img id="ar-object" src="" alt="AR Furniture">
             </div>
-            <div class="instructions">
-                <p><i class="fas fa-hand-pointer"></i> Drag to move | <i class="fas fa-mouse"></i> Scroll to zoom | <i class="fas fa-redo"></i> Right-click to rotate</p>
+            <div class="controls-panel">
+                <div class="control-item">
+                    <i class="fas fa-arrows-alt"></i>
+                    <span>Drag to Move</span>
+                </div>
+                <div class="control-item">
+                    <i class="fas fa-search-plus"></i>
+                    <span>Pinch/Scroll to Zoom</span>
+                </div>
+                <div class="control-item">
+                    <i class="fas fa-sync-alt"></i>
+                    <span>Right-click to Rotate</span>
+                </div>
             </div>
-        </section>
+        </div>
     </main>
 
     <footer>
-        <p>© 2025 AR ALIMN | Transforming Interior Design with AR Technology</p>
+        <div class="footer-links">
+            <a href="#"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+            <a href="#"><i class="fab fa-facebook"></i> Facebook</a>
+            <a href="#"><i class="fas fa-envelope"></i> Contact Us</a>
+        </div>
+        <p class="copyright">© 2025 AR ALIMN. All rights reserved.</p>
     </footer>
 
     <script src="/static/script.js"></script>
