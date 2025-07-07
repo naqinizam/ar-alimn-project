@@ -37,14 +37,15 @@ document.getElementById("start-ar").addEventListener("click", async () => {
     }
 });
 
-// Position object in center
 function initObjectPosition() {
     const cameraFeed = document.getElementById("camera-feed");
     const arObject = document.getElementById("ar-object");
     
-    posX = cameraFeed.offsetWidth / 2 - arObject.offsetWidth / 2;
-    posY = cameraFeed.offsetHeight / 2 - arObject.offsetHeight / 2;
-    updateObjectTransform();
+    setTimeout(() => {
+        posX = (cameraFeed.offsetWidth - arObject.offsetWidth) / 2;
+        posY = (cameraFeed.offsetHeight - arObject.offsetHeight) / 2;
+        updateObjectTransform();
+    }, 100);
 }
 
 // ====== CONTROLS ====== //

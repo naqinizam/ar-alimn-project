@@ -141,3 +141,8 @@ footer {
     height: 400px;
   }
 }
+#ar-object {
+    /* [Keep existing styles] */
+    will-change: transform; /* Optimize for movement */
+    transition: transform 0.1s ease-out; /* Smooth repositioning */
+}
