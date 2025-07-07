@@ -31,9 +31,17 @@
     </section>
 
     <main class="ar-container">
-        <div class="ar-card">
+        <div class="ar-card" style="display:none;">
             <div class="camera-container">
                 <video id="camera-feed" autoplay playsinline></video>
+                <div class="camera-error" style="display:none;">
+                    <i class="fas fa-video-slash"></i>
+                    <h3>Camera Unavailable</h3>
+                    <p>Please enable camera permissions and refresh</p>
+                    <button class="btn" onclick="window.location.reload()">
+                        <i class="fas fa-sync-alt"></i> Try Again
+                    </button>
+                </div>
                 <img id="ar-object" src="" alt="AR Furniture">
             </div>
             <div class="controls-panel">
@@ -64,5 +72,19 @@
     </footer>
 
     <script src="/static/script.js"></script>
+    <script>
+        // Fallback for browsers that don't support camera access
+        function checkCameraSupport() {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                document.querySelector('.hero').innerHTML += `
+                    <div class="warning" style="background: #ffeb3b;padding: 1rem;border-radius: 8px;margin-top: 1rem;">
+                        <i class="fas fa-exclamation-triangle"></i> Your browser doesn't support AR features. Try Chrome or Firefox.
+                    </div>
+                `;
+                document.getElementById('start-ar').disabled = true;
+            }
+        }
+        window.onload = checkCameraSupport;
+    </script>
 </body>
 </html>

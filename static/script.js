@@ -7,46 +7,74 @@ let isDragging = false;
 let startX, startY;
 let initialDistance = 0;
 
-// Initialize AR
+// AR Initialization with robust camera handling
 document.getElementById("start-ar").addEventListener("click", async () => {
     try {
-        // Switch to AR view
-        document.getElementById("ar-section").style.display = "none";
-        document.getElementById("ar-view").style.display = "block";
+        // Show AR view
+        document.querySelector(".hero").style.display = "none";
+        document.querySelector(".ar-card").style.display = "block";
 
-        // Start camera
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-            video: { facingMode: "environment" }
-        });
-        document.getElementById("camera-feed").srcObject = stream;
+        // 1. Request camera access
+        const constraints = {
+            video: {
+                facingMode: "environment",
+                width: { ideal: 1280 },
+                height: { ideal: 720 }
+            }
+        };
+        
+        const stream = await navigator.mediaDevices.getUserMedia(constraints)
+            .catch(err => {
+                console.error("Camera error:", err);
+                throw new Error("Camera access denied. Please enable permissions.");
+            });
 
-        // Load AR object
+        // 2. Start camera feed
+        const cameraFeed = document.getElementById("camera-feed");
+        cameraFeed.srcObject = stream;
+        cameraFeed.onloadedmetadata = () => {
+            cameraFeed.play();
+            console.log("Camera feed active");
+        };
+
+        // 3. Load AR object
         const arObject = document.getElementById("ar-object");
         const response = await fetch("/get_model");
         const { model_url } = await response.json();
         
         arObject.onload = () => {
             arObject.style.display = "block";
-            initObjectPosition();
+            centerObject();
         };
         
+        arObject.onerror = () => console.error("Failed to load AR model");
         arObject.src = model_url;
 
     } catch (error) {
-        alert("Please enable camera permissions.");
+        console.error("AR initialization failed:", error);
+        alert(error.message);
+        // Fallback to show product images if AR fails
+        document.querySelector(".hero").style.display = "flex";
     }
 });
 
-function initObjectPosition() {
+// Center object with camera feed awareness
+function centerObject() {
     const cameraFeed = document.getElementById("camera-feed");
     const arObject = document.getElementById("ar-object");
     
-    setTimeout(() => {
-        posX = (cameraFeed.offsetWidth - arObject.offsetWidth) / 2;
-        posY = (cameraFeed.offsetHeight - arObject.offsetHeight) / 2;
-        updateObjectTransform();
+    // Wait for video dimensions to stabilize
+    const checkDimensions = setInterval(() => {
+        if (cameraFeed.videoWidth > 0) {
+            clearInterval(checkDimensions);
+            posX = (cameraFeed.offsetWidth - arObject.offsetWidth) / 2;
+            posY = (cameraFeed.offsetHeight - arObject.offsetHeight) / 2;
+            updateObjectTransform();
+        }
     }, 100);
 }
+
+// [Keep all your existing control functions (drag/zoom/rotate) unchanged]
 
 // ====== CONTROLS ====== //
 const arObject = document.getElementById("ar-object");
