@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, send_from_directory
 
 app = Flask(__name__)
 
@@ -6,10 +6,15 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
+# Explicitly serve the chair image
 @app.route("/get_model")
 def get_model():
-    # Return the placeholder image path (replace with 3D model later)
     return jsonify({"model_url": "/static/images/chair.png"})
 
+# Required to serve static files on Render
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('static', filename)
+
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=10000)  # Render requires explicit host/port
+    app.run(host='0.0.0.0', port=10000)
