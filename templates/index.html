@@ -170,17 +170,17 @@
     let img = null;
 
     btn.addEventListener('click', () => {
-      navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: \"environment\" } } })
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
         .then(stream => {
           video.srcObject = stream;
-          btn.style.display = \"none\";
+          btn.style.display = "none";
           loadChairImage();
         })
         .catch(() => {
           navigator.mediaDevices.getUserMedia({ video: true })
             .then(stream => {
               video.srcObject = stream;
-              btn.style.display = \"none\";
+              btn.style.display = "none";
               loadChairImage();
             });
         });
