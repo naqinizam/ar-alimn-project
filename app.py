@@ -9,6 +9,15 @@ def home():
 # Explicitly serve the chair image
 @app.route("/get_model")
 def get_model():
+    import os
+    chair_path = os.path.join(app.static_folder, 'images', 'chair.png')
+    
+    # Debug: Check if file exists
+    if not os.path.exists(chair_path):
+        print(f"❌ Error: Chair image not found at {chair_path}")
+    else:
+        print(f"✅ Chair image found at {chair_path}")
+    
     return jsonify({"model_url": "/static/images/chair.png"})
 
 # Required to serve static files on Render

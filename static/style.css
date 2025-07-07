@@ -291,3 +291,9 @@ footer {
     margin-bottom: 1rem;
     color: var(--secondary);
 }
+#ar-object {
+  display: block !important;
+  border: 3px solid lime !important; /* Bright green border for visibility */
+  opacity: 1 !important;
+  z-index: 9999 !important;
+}
