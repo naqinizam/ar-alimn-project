@@ -1,31 +1,36 @@
+/* ===== MODERN AR VIEWER STYLES ===== */
 :root {
   --primary: #4361ee;       /* Vibrant blue */
   --secondary: #f72585;     /* Energetic pink */
   --accent: #4cc9f0;        /* Light blue */
   --light: #f8f9fa;
   --dark: #212529;
-  --shadow: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.15);
 }
 
-/* Modern Base Styles */
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+/* ===== BASE STYLES ===== */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  background-color: #f5f7fa;
-  color: var(--dark);
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   line-height: 1.6;
+  color: var(--dark);
+  background: #f5f7fa;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* Floating Header */
+/* ===== HEADER ===== */
 header {
   background: white;
-  color: var(--dark);
   padding: 1rem 2rem;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -40,14 +45,15 @@ header {
   color: var(--primary);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.75rem;
 }
 
 .logo i {
   color: var(--secondary);
+  font-size: 1.8rem;
 }
 
-/* Modern Navigation */
+/* ===== NAVIGATION ===== */
 nav {
   display: flex;
   gap: 1.5rem;
@@ -66,7 +72,7 @@ nav a:hover {
   color: var(--primary);
 }
 
-nav a:after {
+nav a::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -77,42 +83,43 @@ nav a:after {
   transition: width 0.3s;
 }
 
-nav a:hover:after {
+nav a:hover::after {
   width: 100%;
 }
 
-/* Hero Section */
+/* ===== HERO SECTION ===== */
 .hero {
   text-align: center;
-  padding: 4rem 2rem;
-  background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+  padding: 5rem 2rem;
+  background: linear-gradient(135deg, var(--primary) 0%, #3a0ca3 100%);
   color: white;
   margin-bottom: 2rem;
 }
 
 .hero h1 {
   font-size: 2.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
 }
 
 .hero p {
   font-size: 1.2rem;
   max-width: 700px;
-  margin: 0 auto 2rem;
+  margin: 0 auto 3rem;
+  opacity: 0.9;
 }
 
-/* AR Container */
+/* ===== MAIN AR CONTAINER ===== */
 .ar-container {
   max-width: 1000px;
   margin: 0 auto 3rem;
   padding: 0 1.5rem;
 }
 
-/* Modern Card */
 .ar-card {
   background: white;
   border-radius: 16px;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-md);
   overflow: hidden;
   transition: transform 0.3s ease;
 }
@@ -121,12 +128,76 @@ nav a:hover:after {
   transform: translateY(-5px);
 }
 
-/* Modern Button */
+/* ===== CAMERA FEED ===== */
+.camera-container {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  min-height: 400px;
+  background: black;
+  overflow: hidden;
+}
+
+#camera-feed {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ===== AR OBJECT (CHAIR) ===== */
+#ar-object {
+  position: absolute;
+  width: 200px;
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+  cursor: grab;
+  z-index: 10;
+  display: none;
+  transform-origin: center;
+  will-change: transform;
+  transition: transform 0.1s ease-out;
+}
+
+#ar-object:active {
+  cursor: grabbing;
+}
+
+/* ===== CONTROLS PANEL ===== */
+.controls-panel {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0 0 16px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  border-top: 1px solid #eee;
+}
+
+.control-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f8f9fa;
+  padding: 0.75rem 1.25rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  color: var(--dark);
+}
+
+.control-item i {
+  color: var(--primary);
+  font-size: 1rem;
+}
+
+/* ===== BUTTONS ===== */
 .btn {
   background: var(--secondary);
   color: white;
   border: none;
-  padding: 12px 32px;
+  padding: 0.75rem 2rem;
   font-size: 1rem;
   border-radius: 50px;
   cursor: pointer;
@@ -134,7 +205,7 @@ nav a:hover:after {
   font-weight: 600;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.75rem;
   box-shadow: 0 4px 14px rgba(247, 37, 133, 0.35);
 }
 
@@ -148,67 +219,39 @@ nav a:hover:after {
   font-size: 1.1rem;
 }
 
-/* Camera Feed */
-.camera-container {
-  position: relative;
-  width: 100%;
-  height: 500px;
-  background: var(--dark);
-  border-radius: 8px 8px 0 0;
-  overflow: hidden;
-}
-
-#camera-feed {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* AR Object */
-#ar-object {
-  position: absolute;
-  width: 200px;
-  pointer-events: auto;
-  touch-action: none;
-  user-select: none;
-  cursor: grab;
-  z-index: 10;
+/* ===== ERROR STATES ===== */
+.camera-error {
   display: none;
-  transform-origin: center;
-  will-change: transform;
-}
-
-#ar-object:active {
-  cursor: grabbing;
-}
-
-/* Controls Panel */
-.controls-panel {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 0 0 8px 8px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.control-item {
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 6px;
-  background: #f8f9fa;
-  padding: 8px 16px;
-  border-radius: 50px;
-  font-size: 0.9rem;
-  color: var(--dark);
+  justify-content: center;
+  color: white;
+  height: 100%;
+  padding: 2rem;
+  text-align: center;
+  background: rgba(0,0,0,0.7);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
 }
 
-.control-item i {
-  color: var(--primary);
+.camera-error i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: var(--secondary);
 }
 
-/* Footer */
+.warning {
+  background: #ffeb3b;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  color: #333;
+}
+
+/* ===== FOOTER ===== */
 footer {
   background: var(--dark);
   color: white;
@@ -228,6 +271,7 @@ footer {
   color: white;
   text-decoration: none;
   transition: color 0.3s;
+  font-size: 1.1rem;
 }
 
 .footer-links a:hover {
@@ -239,7 +283,7 @@ footer {
   font-size: 0.9rem;
 }
 
-/* Responsive */
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
@@ -247,53 +291,36 @@ footer {
     padding: 1rem;
   }
   
+  nav {
+    gap: 1rem;
+  }
+  
+  .hero {
+    padding: 3rem 1.5rem;
+  }
+  
   .hero h1 {
     font-size: 2rem;
   }
   
   .camera-container {
-    height: 400px;
+    height: 50vh;
+  }
+  
+  .footer-links {
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 }
-/* Add to your existing style.css */
-.camera-container {
-    position: relative;
-    width: 100%;
-    height: 60vh; /* Responsive height */
-    min-height: 400px;
-    background: #000; /* Black background if camera fails */
-    border-radius: 8px 8px 0 0;
-    overflow: hidden;
-}
 
-#camera-feed {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: scaleX(-1); /* Mirror effect for front camera */
-    display: block; /* Ensure it's never hidden */
-}
-
-/* Error state */
-.camera-error {
-    display: flex;
+@media (max-width: 480px) {
+  .controls-panel {
     flex-direction: column;
     align-items: center;
+  }
+  
+  .control-item {
+    width: 100%;
     justify-content: center;
-    color: white;
-    height: 100%;
-    padding: 2rem;
-    text-align: center;
-}
-
-.camera-error i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: var(--secondary);
-}
-#ar-object {
-  display: block !important;
-  border: 3px solid lime !important; /* Bright green border for visibility */
-  opacity: 1 !important;
-  z-index: 9999 !important;
+  }
 }

@@ -1,4 +1,4 @@
-// AR Object Controls
+// AR Control Variables
 let scale = 1;
 let rotation = 0;
 let posX = 0;
@@ -7,98 +7,84 @@ let isDragging = false;
 let startX, startY;
 let initialDistance = 0;
 
-// AR Initialization with robust camera handling
+// Initialize AR Experience
 document.getElementById("start-ar").addEventListener("click", async () => {
     try {
-        // Show AR view
+        // Show AR View
         document.querySelector(".hero").style.display = "none";
         document.querySelector(".ar-card").style.display = "block";
 
-        // 1. Request camera access
-        const constraints = {
+        // 1. Start Camera Feed
+        const cameraFeed = document.getElementById("camera-feed");
+        const stream = await navigator.mediaDevices.getUserMedia({
             video: {
                 facingMode: "environment",
                 width: { ideal: 1280 },
                 height: { ideal: 720 }
             }
-        };
-        
-        const stream = await navigator.mediaDevices.getUserMedia(constraints)
-            .catch(err => {
-                console.error("Camera error:", err);
-                throw new Error("Camera access denied. Please enable permissions.");
-            });
-
-        // 2. Start camera feed
-        const cameraFeed = document.getElementById("camera-feed");
+        });
         cameraFeed.srcObject = stream;
-        cameraFeed.onloadedmetadata = () => {
-            cameraFeed.play();
-            console.log("Camera feed active");
+
+        // 2. Load AR Object
+        const arObject = document.getElementById("ar-object");
+        arObject.src = "/static/images/chair.png"; // Direct path for reliability
+        
+        // Fallback to online image if local fails
+        arObject.onerror = () => {
+            console.warn("Using fallback chair image");
+            arObject.src = "https://i.imgur.com/JqYeZLn.png";
         };
 
-        // 3. Load AR object
-        const arObject = document.getElementById("ar-object");
-        const response = await fetch("/get_model");
-        const { model_url } = await response.json();
-        
-        arObject.onload = () => {
-            arObject.style.display = "block";
-            centerObject();
-        };
-        
-        arObject.onerror = () => console.error("Failed to load AR model");
-        arObject.src = model_url;
+        // 3. Wait for Both Camera and Object to Load
+        const startTime = Date.now();
+        const readyCheck = setInterval(() => {
+            const cameraReady = cameraFeed.videoWidth > 0;
+            const objectReady = arObject.complete && arObject.naturalWidth > 0;
+            
+            if (cameraReady && objectReady) {
+                clearInterval(readyCheck);
+                centerObject();
+                arObject.style.display = "block";
+            } 
+            else if (Date.now() - startTime > 5000) {
+                clearInterval(readyCheck);
+                throw new Error("Loading timeout - check camera/object");
+            }
+        }, 100);
 
     } catch (error) {
-        console.error("AR initialization failed:", error);
-        alert(error.message);
-        // Fallback to show product images if AR fails
-        document.querySelector(".hero").style.display = "flex";
+        console.error("AR Initialization Failed:", error);
+        document.querySelector(".camera-error").style.display = "flex";
     }
 });
 
-// Center object with camera feed awareness
+// Perfect Center Positioning
 function centerObject() {
     const cameraFeed = document.getElementById("camera-feed");
     const arObject = document.getElementById("ar-object");
     
-    // Wait for video dimensions to stabilize
-    const checkDimensions = setInterval(() => {
-        if (cameraFeed.videoWidth > 0) {
-            clearInterval(checkDimensions);
-            posX = (cameraFeed.offsetWidth - arObject.offsetWidth) / 2;
-            posY = (cameraFeed.offsetHeight - arObject.offsetHeight) / 2;
-            updateObjectTransform();
-        }
-    }, 100);
+    // Calculate center coordinates
+    posX = (cameraFeed.offsetWidth - arObject.offsetWidth) / 2;
+    posY = (cameraFeed.offsetHeight - arObject.offsetHeight) / 2;
+    
+    // Ensure stays within viewport bounds
+    posX = Math.max(0, Math.min(posX, cameraFeed.offsetWidth - arObject.offsetWidth));
+    posY = Math.max(0, Math.min(posY, cameraFeed.offsetHeight - arObject.offsetHeight));
+    
+    updateObjectTransform();
 }
 
-// [Keep all your existing control functions (drag/zoom/rotate) unchanged]
-
-// ====== CONTROLS ====== //
+// ====== USER CONTROLS ====== //
 const arObject = document.getElementById("ar-object");
 
-// Method 1: Your configured path
-arObject.src = "/static/images/chair.png"; 
-
-// Method 2: Direct fallback (if above fails)
-arObject.onerror = () => {
-    console.log("🛠️ Falling back to online chair image");
-    arObject.src = "https://i.imgur.com/JqYeZLn.png";
-};
-
-arObject.style.display = "block";
-centerObject(); // Your existing centering function
-
-// 1. ZOOM (Mouse wheel/pinch)
+// 1. Zoom (Mouse Wheel/Pinch)
 arObject.addEventListener("wheel", function(e) {
     e.preventDefault();
     scale = Math.min(Math.max(0.5, scale + e.deltaY * -0.01), 3);
     updateObjectTransform();
 }, { passive: false });
 
-// 2. DRAG (Mouse/touch)
+// 2. Drag (Mouse/Touch)
 arObject.addEventListener("mousedown", startDrag);
 arObject.addEventListener("touchstart", handleTouchStart, { passive: false });
 document.addEventListener("mousemove", drag);
@@ -106,14 +92,14 @@ document.addEventListener("touchmove", handleTouchMove, { passive: false });
 document.addEventListener("mouseup", endDrag);
 document.addEventListener("touchend", endDrag);
 
-// 3. ROTATE (Right-click/long-press)
+// 3. Rotate (Right-click/Long-press)
 arObject.addEventListener("contextmenu", (e) => {
     e.preventDefault();
     rotation += 30;
     updateObjectTransform();
 });
 
-// Control functions
+// Control Functions
 function startDrag(e) {
     isDragging = true;
     startX = (e.clientX || e.touches[0].clientX) - posX;
@@ -160,5 +146,16 @@ function updateObjectTransform() {
         translate(${posX}px, ${posY}px)
         scale(${scale})
         rotate(${rotation}deg)
+    `;
+}
+
+// Browser Support Check
+if (!navigator.mediaDevices?.getUserMedia) {
+    document.getElementById('start-ar').disabled = true;
+    document.querySelector('.hero').innerHTML += `
+        <div class="warning">
+            <i class="fas fa-exclamation-triangle"></i> 
+            AR requires Chrome/Firefox on mobile
+        </div>
     `;
 }
