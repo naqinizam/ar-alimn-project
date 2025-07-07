@@ -79,6 +79,18 @@ function centerObject() {
 // ====== CONTROLS ====== //
 const arObject = document.getElementById("ar-object");
 
+// Method 1: Your configured path
+arObject.src = "/static/images/chair.png"; 
+
+// Method 2: Direct fallback (if above fails)
+arObject.onerror = () => {
+    console.log("🛠️ Falling back to online chair image");
+    arObject.src = "https://i.imgur.com/JqYeZLn.png";
+};
+
+arObject.style.display = "block";
+centerObject(); // Your existing centering function
+
 // 1. ZOOM (Mouse wheel/pinch)
 arObject.addEventListener("wheel", function(e) {
     e.preventDefault();
