@@ -19,16 +19,18 @@
 
     <section id="ar-section">
         <h2>WHAT IS AR?</h2>
-        <p>Overlay digital furniture in your real world!</p>
+        <p>Visualize furniture in your space!</p>
         <button id="start-ar">START AR CAMERA</button>
     </section>
 
     <section id="ar-view" style="display:none;">
         <div class="camera-container">
             <video id="camera-feed" autoplay playsinline></video>
-            <img id="ar-object" src="" alt="AR Chair">
+            <img id="ar-object" src="" alt="AR Object" style="display:none;">
         </div>
-        <p>Point your camera at a flat surface.</p>
+        <div class="controls">
+            <p>Drag to move | Scroll to zoom | Right-click to rotate</p>
+        </div>
     </section>
 
     <footer>© 2025 AR ALIMN</footer>
