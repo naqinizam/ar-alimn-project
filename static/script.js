@@ -5,41 +5,35 @@ let posX = 0;
 let posY = 0;
 let isDragging = false;
 let startX, startY;
-let initialDistance = 0; // For pinch zoom
+let initialDistance = 0;
 
 // Initialize AR
 document.getElementById("start-ar").addEventListener("click", async () => {
     try {
-        // 1. Switch to AR view
+        // Switch to AR view
         document.getElementById("ar-section").style.display = "none";
         document.getElementById("ar-view").style.display = "block";
 
-        // 2. Start camera
+        // Start camera
         const stream = await navigator.mediaDevices.getUserMedia({ 
-            video: { facingMode: "environment" } // Rear camera
+            video: { facingMode: "environment" }
         });
         document.getElementById("camera-feed").srcObject = stream;
 
-        // 3. Load AR object
+        // Load AR object
         const arObject = document.getElementById("ar-object");
         const response = await fetch("/get_model");
         const { model_url } = await response.json();
         
-        console.log("Loading image from:", model_url);
-        
         arObject.onload = () => {
-            console.log("✅ Image loaded successfully");
             arObject.style.display = "block";
-            initObjectPosition(); // Center object
+            initObjectPosition();
         };
         
-        arObject.onerror = () => console.error("❌ Failed to load image");
-
         arObject.src = model_url;
 
     } catch (error) {
-        console.error("Camera/image error:", error);
-        alert("Enable camera permissions and check console.");
+        alert("Please enable camera permissions.");
     }
 });
 
@@ -50,7 +44,6 @@ function initObjectPosition() {
     
     posX = cameraFeed.offsetWidth / 2 - arObject.offsetWidth / 2;
     posY = cameraFeed.offsetHeight / 2 - arObject.offsetHeight / 2;
-    
     updateObjectTransform();
 }
 
@@ -60,9 +53,7 @@ const arObject = document.getElementById("ar-object");
 // 1. ZOOM (Mouse wheel/pinch)
 arObject.addEventListener("wheel", function(e) {
     e.preventDefault();
-    scale += e.deltaY * -0.01;
-    scale = Math.min(Math.max(0.5, scale), 3); // Limit 0.5x-3x
-    console.log("Scale:", scale);
+    scale = Math.min(Math.max(0.5, scale + e.deltaY * -0.01), 3);
     updateObjectTransform();
 }, { passive: false });
 
@@ -81,21 +72,16 @@ arObject.addEventListener("contextmenu", (e) => {
     updateObjectTransform();
 });
 
-// ====== CONTROL FUNCTIONS ====== //
+// Control functions
 function startDrag(e) {
     isDragging = true;
-    startX = e.clientX - posX;
-    startY = e.clientY - posY;
+    startX = (e.clientX || e.touches[0].clientX) - posX;
+    startY = (e.clientY || e.touches[0].clientY) - posY;
 }
 
 function handleTouchStart(e) {
-    if (e.touches.length === 1) {
-        // Single touch: drag
-        isDragging = true;
-        startX = e.touches[0].clientX - posX;
-        startY = e.touches[0].clientY - posY;
-    } else if (e.touches.length === 2) {
-        // Two touches: pinch zoom
+    if (e.touches.length === 1) startDrag(e);
+    else if (e.touches.length === 2) {
         initialDistance = Math.hypot(
             e.touches[0].clientX - e.touches[1].clientX,
             e.touches[0].clientY - e.touches[1].clientY
@@ -111,11 +97,8 @@ function drag(e) {
 }
 
 function handleTouchMove(e) {
-    if (e.touches.length === 1 && isDragging) {
-        // Single touch drag
-        drag(e);
-    } else if (e.touches.length === 2) {
-        // Pinch zoom
+    if (e.touches.length === 1) drag(e);
+    else if (e.touches.length === 2) {
         e.preventDefault();
         const currentDistance = Math.hypot(
             e.touches[0].clientX - e.touches[1].clientX,
@@ -131,7 +114,6 @@ function endDrag() {
     isDragging = false;
 }
 
-// Update object position/scale/rotation
 function updateObjectTransform() {
     arObject.style.transform = `
         translate(${posX}px, ${posY}px)
