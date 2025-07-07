@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR ALIMN</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <header>
+        <h1>AR ALIMN</h1>
+        <nav>
+            <a href="#">HOME</a> | 
+            <a href="#">OUR SERVICES</a> | 
+            <a href="#">PROJECT SHOWCASE</a> | 
+            <a href="#">CONTACT</a>
+        </nav>
+    </header>
+
+    <section id="ar-section">
+        <h2>WHAT IS AR?</h2>
+        <p>Technology that overlays digital content (like 3D models) onto the real world through devices like smartphones or tablets.</p>
+        <button id="start-ar">Let’s get started</button>
+    </section>
+
+    <section id="how-it-works" style="display:none;">
+        <h2>HOW IT WORKS?</h2>
+        <ol>
+            <li>Allow camera access when prompted.</li>
+            <li>Point your rear camera at a flat surface.</li>
+            <li>A chair will appear in your space!</li>
+        </ol>
+        <div id="camera-feed">
+            <!-- Camera feed will be inserted here by JS -->
+        </div>
+        <img id="ar-object" src="" alt="AR Object" style="display:none;">
+    </section>
+
+    <footer>© 2025 AR ALIMN</footer>
+    <script src="/static/script.js"></script>
+</body>
+</html>
