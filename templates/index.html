@@ -1,39 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>AR ALIMN</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR ALIMN - Furniture Visualizer</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
-        <h1>AR ALIMN</h1>
-        <nav>
-            <a href="#">HOME</a> | 
-            <a href="#">OUR SERVICES</a> | 
-            <a href="#">PROJECT SHOWCASE</a> | 
-            <a href="#">CONTACT</a>
-        </nav>
+        <div class="container">
+            <h1><i class="fas fa-couch"></i> AR ALIMN</h1>
+            <nav>
+                <a href="#"><i class="fas fa-home"></i> Home</a>
+                <a href="#"><i class="fas fa-cube"></i> Products</a>
+                <a href="#"><i class="fas fa-images"></i> Gallery</a>
+                <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+            </nav>
+        </div>
     </header>
 
-    <section id="ar-section">
-        <h2>WHAT IS AR?</h2>
-        <p>Visualize furniture in your space!</p>
-        <button id="start-ar">START AR CAMERA</button>
-    </section>
+    <main>
+        <section id="ar-section">
+            <h2>Visualize Furniture in Your Space</h2>
+            <p>See how our furniture fits and looks in your home before you buy, using augmented reality technology.</p>
+            <button id="start-ar">
+                <i class="fas fa-camera"></i> START AR CAMERA
+            </button>
+        </section>
 
-    <section id="ar-view" style="display:none;">
-        <div class="camera-container">
-            <video id="camera-feed" autoplay playsinline></video>
-            <img id="ar-object" src="" alt="AR Object" style="display:none;">
-        </div>
-        <div class="controls">
-            <p>Drag to move | Scroll to zoom | Right-click to rotate</p>
-        </div>
-    </section>
+        <section id="ar-view">
+            <h3>AR View Mode</h3>
+            <div class="camera-container">
+                <video id="camera-feed" autoplay playsinline></video>
+                <img id="ar-object" src="" alt="AR Furniture">
+            </div>
+            <div class="instructions">
+                <p><i class="fas fa-hand-pointer"></i> Drag to move | <i class="fas fa-mouse"></i> Scroll to zoom | <i class="fas fa-redo"></i> Right-click to rotate</p>
+            </div>
+        </section>
+    </main>
 
-    <footer>© 2025 AR ALIMN</footer>
+    <footer>
+        <p>© 2025 AR ALIMN | Transforming Interior Design with AR Technology</p>
+    </footer>
+
     <script src="/static/script.js"></script>
 </body>
 </html>
