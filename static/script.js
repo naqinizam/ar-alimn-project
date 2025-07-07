@@ -1,21 +1,30 @@
 document.getElementById("start-ar").addEventListener("click", async () => {
-    document.getElementById("ar-section").style.display = "none";
-    document.getElementById("how-it-works").style.display = "block";
+    try {
+        // Hide intro section
+        document.getElementById("ar-section").style.display = "none";
+        
+        // Show AR view
+        const arView = document.getElementById("ar-view");
+        arView.style.display = "block";
 
-    // Fetch the placeholder model (PNG)
-    const response = await fetch("/get_model");
-    const data = await response.json();
-    const modelUrl = data.model_url;
+        // Request camera access
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+            video: { facingMode: "environment" } // Force rear camera
+        });
 
-    // Display the AR object (PNG)
-    const arObject = document.getElementById("ar-object");
-    arObject.src = modelUrl;
-    arObject.style.display = "block";
+        // Display camera feed
+        const cameraFeed = document.getElementById("camera-feed");
+        cameraFeed.srcObject = stream;
 
-    // Simulate camera feed (for demo)
-    const cameraFeed = document.getElementById("camera-feed");
-    cameraFeed.innerHTML = `<img src="${modelUrl}" alt="AR Chair" style="width:100%;">`;
+        // Load AR object
+        const response = await fetch("/get_model");
+        const { model_url } = await response.json();
+        const arObject = document.getElementById("ar-object");
+        arObject.src = model_url;
+        arObject.style.display = "block";
 
-    // In a real app, use WebRTC for camera stream + libraries like AR.js
-    console.log("AR functionality would use the camera here!");
+    } catch (error) {
+        console.error("Camera error:", error);
+        alert("Failed to access camera. Please enable permissions and reload.");
+    }
 });
