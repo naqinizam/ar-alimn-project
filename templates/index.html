@@ -12,6 +12,7 @@
       font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
     }
 
     header, nav, .hero {
@@ -30,9 +31,12 @@
     #camera-wrapper {
       position: relative;
       display: inline-block;
-      width: 400px;
-      height: 300px;
+      width: 100%;
+      max-width: 400px;
+      aspect-ratio: 4/3;
       background-color: #000;
+      overflow: hidden;
+      touch-action: none;
     }
 
     #camera-stream {
@@ -48,7 +52,7 @@
       top: 50%;
       left: 50%;
       width: 150px;
-      transform: translate(-50%, -50%) scale(1);
+      transform: translate(-50%, -50%) scale(1) rotate(0deg);
       touch-action: none;
       z-index: 2;
       cursor: grab;
@@ -100,68 +104,131 @@
     const video = document.getElementById('camera-stream');
     const btn = document.getElementById('start-btn');
     const wrapper = document.getElementById('camera-wrapper');
+    let img = null;
 
     btn.addEventListener('click', () => {
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then(stream => {
+      navigator.mediaDevices.getUserMedia({
+        video: {
+          facingMode: { exact: "environment" } // Use rear camera
+        }
+      })
+      .then(stream => {
+        video.srcObject = stream;
+        btn.style.display = "none";
+        loadChairImage();
+      })
+      .catch(err => {
+        alert("Rear camera not accessible. Trying front camera.");
+        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
           video.srcObject = stream;
-          btn.style.display = "none"; // hide button after starting
-          loadChairImage(); // show image once camera starts
-        })
-        .catch(err => {
-          console.error("Camera access error:", err);
-          alert("Unable to access camera.");
+          btn.style.display = "none";
+          loadChairImage();
         });
+      });
     });
 
     function loadChairImage() {
       fetch('/get_model')
         .then(res => res.json())
         .then(data => {
-          const img = document.createElement('img');
+          img = document.createElement('img');
           img.src = data.model_url;
           img.alt = 'Chair';
           img.id = 'chair';
           wrapper.appendChild(img);
-
           makeInteractive(img);
         });
     }
 
-    function makeInteractive(img) {
+    function makeInteractive(el) {
       let isDragging = false;
       let lastX = 0, lastY = 0;
       let scale = 1;
+      let rotation = 0;
 
-      img.addEventListener('mousedown', e => {
+      // Mouse drag
+      el.addEventListener('mousedown', e => {
         isDragging = true;
         lastX = e.clientX;
         lastY = e.clientY;
-        img.style.cursor = 'grabbing';
+        el.style.cursor = 'grabbing';
       });
 
       window.addEventListener('mousemove', e => {
         if (!isDragging) return;
         const dx = e.clientX - lastX;
         const dy = e.clientY - lastY;
-        img.style.left = `${img.offsetLeft + dx}px`;
-        img.style.top = `${img.offsetTop + dy}px`;
+        el.style.left = `${el.offsetLeft + dx}px`;
+        el.style.top = `${el.offsetTop + dy}px`;
         lastX = e.clientX;
         lastY = e.clientY;
       });
 
       window.addEventListener('mouseup', () => {
         isDragging = false;
-        img.style.cursor = 'grab';
+        el.style.cursor = 'grab';
       });
 
+      // Zoom with wheel
       window.addEventListener('wheel', e => {
-        if (!img) return;
+        if (!el) return;
         e.preventDefault();
         const delta = e.deltaY > 0 ? -0.1 : 0.1;
         scale = Math.max(0.1, scale + delta);
-        img.style.transform = `translate(-50%, -50%) scale(${scale})`;
+        updateTransform();
       });
+
+      // Touch gestures: drag, pinch, rotate
+      let startDist = 0;
+      let startAngle = 0;
+      let initialScale = 1;
+      let initialRotation = 0;
+
+      el.addEventListener('touchstart', e => {
+        if (e.touches.length === 2) {
+          startDist = getDistance(e.touches);
+          startAngle = getAngle(e.touches);
+          initialScale = scale;
+          initialRotation = rotation;
+        } else if (e.touches.length === 1) {
+          lastX = e.touches[0].clientX;
+          lastY = e.touches[0].clientY;
+        }
+      });
+
+      el.addEventListener('touchmove', e => {
+        e.preventDefault();
+        if (e.touches.length === 2) {
+          const newDist = getDistance(e.touches);
+          const newAngle = getAngle(e.touches);
+          scale = Math.max(0.1, initialScale * (newDist / startDist));
+          rotation = initialRotation + (newAngle - startAngle);
+          updateTransform();
+        } else if (e.touches.length === 1) {
+          const dx = e.touches[0].clientX - lastX;
+          const dy = e.touches[0].clientY - lastY;
+          el.style.left = `${el.offsetLeft + dx}px`;
+          el.style.top = `${el.offsetTop + dy}px`;
+          lastX = e.touches[0].clientX;
+          lastY = e.touches[0].clientY;
+        }
+      });
+
+      function updateTransform() {
+        el.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${rotation}deg)`;
+      }
+
+      function getDistance(touches) {
+        const dx = touches[0].clientX - touches[1].clientX;
+        const dy = touches[0].clientY - touches[1].clientY;
+        return Math.sqrt(dx * dx + dy * dy);
+      }
+
+      function getAngle(touches) {
+        const dx = touches[1].clientX - touches[0].clientX;
+        const dy = touches[1].clientY - touches[0].clientY;
+        return Math.atan2(dy, dx) * (180 / Math.PI);
+      }
     }
   </script>
 </body>
