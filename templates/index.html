@@ -6,142 +6,7 @@
   <title>AR ALIMN | Furniture Visualizer</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: 'Outfit', sans-serif;
-      background: #f4f6f8;
-      color: #2d3436;
-      line-height: 1.6;
-    }
-    header {
-      background: #1e272e;
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 15px 30px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      animation: slideInTop 0.5s ease-out;
-    }
-    .logo {
-      font-size: 1.6em;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    nav a {
-      color: white;
-      margin-left: 25px;
-      text-decoration: none;
-      font-size: 1em;
-      transition: color 0.3s ease;
-    }
-    nav a:hover {
-      color: #74b9ff;
-    }
-    .hero {
-      padding: 60px 20px;
-      text-align: center;
-      background: linear-gradient(135deg, #74b9ff, #6c5ce7);
-      color: white;
-      animation: fadeIn 1s ease-out;
-    }
-    .hero h1 {
-      font-size: 2.5em;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-    .hero p {
-      font-size: 1.1em;
-    }
-    #ar-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 30px 20px;
-      animation: fadeInUp 1s ease;
-    }
-    #camera-wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 420px;
-      aspect-ratio: 4 / 3;
-      background: #000;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-    }
-    #camera-wrapper:hover {
-      transform: scale(1.02);
-    }
-    #camera-stream {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    #chair {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 150px;
-      transform: translate(-50%, -50%) scale(1) rotate(0deg);
-      touch-action: none;
-      cursor: grab;
-      z-index: 2;
-      transition: transform 0.3s ease;
-    }
-    #start-btn {
-      margin-top: 20px;
-      padding: 12px 28px;
-      font-size: 1em;
-      background-color: #0984e3;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transition: background 0.3s, transform 0.2s ease;
-      animation: fadeIn 1.2s ease-out;
-    }
-    #start-btn:hover {
-      background-color: #0077cc;
-      transform: translateY(-2px);
-    }
-
-    @media (max-width: 600px) {
-      header, nav {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      nav a {
-        margin: 10px 0;
-      }
-      .hero h1 {
-        font-size: 1.8em;
-      }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes slideInTop {
-      from { transform: translateY(-100%); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
@@ -150,10 +15,10 @@
       <span>AR ALIMN</span>
     </div>
     <nav>
-      <a href="#">Home</a>
-      <a href="#">Products</a>
-      <a href="#">AR Demo</a>
-      <a href="#">Contact</a>
+      <a href="#"><i class="fas fa-home"></i> Home</a>
+      <a href="#"><i class="fas fa-th"></i> Products</a>
+      <a href="#"><i class="fas fa-vr-cardboard"></i> AR Demo</a>
+      <a href="#"><i class="fas fa-envelope"></i> Contact</a>
     </nav>
   </header>
 
