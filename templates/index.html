@@ -4,49 +4,73 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AR ALIMN | Furniture Visualizer</title>
-  <link rel="stylesheet" href="/static/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       font-family: 'Inter', sans-serif;
       margin: 0;
       padding: 0;
-      overflow-x: hidden;
+      background: #f8f9fa;
+      color: #333;
     }
-
-    header, nav, .hero {
-      position: relative;
-      z-index: 3;
+    header {
+      background-color: #2c3e50;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
     }
-
-    #ar-container {
-      position: relative;
-      width: 100%;
-      height: auto;
+    .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    nav a {
+      color: white;
+      margin-left: 15px;
+      text-decoration: none;
+      font-size: 1em;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .hero {
+      padding: 30px 20px;
       text-align: center;
+      background: linear-gradient(135deg, #3498db, #8e44ad);
+      color: white;
+    }
+    .hero h1 {
+      margin-bottom: 10px;
+    }
+    #ar-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       padding: 20px;
     }
-
     #camera-wrapper {
       position: relative;
-      display: inline-block;
       width: 100%;
       max-width: 400px;
-      aspect-ratio: 4/3;
-      background-color: #000;
+      aspect-ratio: 4 / 3;
+      background: #000;
+      border-radius: 12px;
       overflow: hidden;
-      touch-action: none;
     }
-
     #camera-stream {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border: 2px solid #ccc;
-      z-index: 1;
     }
-
     #chair {
       position: absolute;
       top: 50%;
@@ -54,23 +78,31 @@
       width: 150px;
       transform: translate(-50%, -50%) scale(1) rotate(0deg);
       touch-action: none;
-      z-index: 2;
       cursor: grab;
+      z-index: 2;
     }
-
     #start-btn {
       margin-top: 15px;
       padding: 10px 20px;
       font-size: 16px;
-      background-color: #2c3e50;
+      background-color: #3498db;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
+      transition: background 0.3s;
     }
-
     #start-btn:hover {
-      background-color: #1a242f;
+      background-color: #2980b9;
+    }
+    @media (max-width: 600px) {
+      header, nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav a {
+        margin: 10px 0;
+      }
     }
   </style>
 </head>
@@ -81,10 +113,10 @@
       <span>AR ALIMN</span>
     </div>
     <nav>
-      <a href="#"><i class="fas fa-home"></i> Home</a>
-      <a href="#"><i class="fas fa-box-open"></i> Products</a>
-      <a href="#"><i class="fas fa-magic"></i> AR Demo</a>
-      <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+      <a href="#">Home</a>
+      <a href="#">Products</a>
+      <a href="#">AR Demo</a>
+      <a href="#">Contact</a>
     </nav>
   </header>
 
@@ -107,24 +139,19 @@
     let img = null;
 
     btn.addEventListener('click', () => {
-      navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: { exact: "environment" } // Use rear camera
-        }
-      })
-      .then(stream => {
-        video.srcObject = stream;
-        btn.style.display = "none";
-        loadChairImage();
-      })
-      .catch(err => {
-        alert("Rear camera not accessible. Trying front camera.");
-        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
+        .then(stream => {
           video.srcObject = stream;
           btn.style.display = "none";
           loadChairImage();
+        })
+        .catch(err => {
+          navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+            video.srcObject = stream;
+            btn.style.display = "none";
+            loadChairImage();
+          });
         });
-      });
     });
 
     function loadChairImage() {
@@ -146,7 +173,6 @@
       let scale = 1;
       let rotation = 0;
 
-      // Mouse drag
       el.addEventListener('mousedown', e => {
         isDragging = true;
         lastX = e.clientX;
@@ -169,7 +195,6 @@
         el.style.cursor = 'grab';
       });
 
-      // Zoom with wheel
       window.addEventListener('wheel', e => {
         if (!el) return;
         e.preventDefault();
@@ -178,7 +203,6 @@
         updateTransform();
       });
 
-      // Touch gestures: drag, pinch, rotate
       let startDist = 0;
       let startAngle = 0;
       let initialScale = 1;
