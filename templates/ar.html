@@ -1,20 +1,13 @@
-{% include 'partials/header.html' %}
-
-<main class="ar-demo">
-  <h1>AR Furniture Visualizer</h1>
-  <p>Tap the button below to launch the AR camera and interact with our chair.</p>
-
-  <ul class="ar-instructions">
-    <li>Use back camera for better accuracy.</li>
-    <li>Drag to move. Scroll/pinch to zoom. Long press/right-click to rotate.</li>
-  </ul>
-
+{% extends "base.html" %}
+{% block content %}
+<main>
+  <h1>AR Demo</h1>
+  <p>Click the button below to activate your camera and place the furniture in your space. You can drag, zoom, and rotate the object.</p>
   <button id="start-ar" class="btn">Start AR</button>
 
   <div class="ar-view">
-    <video id="camera-feed" autoplay playsinline muted></video>
-    <img id="ar-object" alt="AR Furniture" />
+    <video id="camera-feed" autoplay playsinline></video>
+    <img id="ar-object" alt="AR Furniture">
   </div>
 </main>
-
-{% include 'partials/footer.html' %}
+{% endblock %}
