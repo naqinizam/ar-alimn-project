@@ -2,24 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AR ALIMN - AR Demo</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AR Demo | AR ALIMN</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <script defer src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
   {% include 'header.html' %}
 
-  <main class="hero">
-    <h1>AR Furniture Demo</h1>
-    <p>Click the button below to activate your camera and place the furniture in your space.</p>
-    <button id="start-ar" class="btn">Start AR</button>
-  </main>
+  <section class="hero small">
+    <h1>Live AR Furniture Demo</h1>
+    <p>Click the button below to start your camera and view the furniture in your space.</p>
+  </section>
 
-  <div class="ar-card">
-    <video id="camera-feed" autoplay playsinline></video>
-    <img id="ar-object" alt="AR Object">
-  </div>
+  <section class="ar-section">
+    <div class="ar-box">
+      <video id="camera-feed" autoplay playsinline muted></video>
+      <img id="ar-object" alt="AR Object" />
+    </div>
+    <button id="start-ar" class="primary-btn">Start AR</button>
+  </section>
 
   {% include 'footer.html' %}
 </body>

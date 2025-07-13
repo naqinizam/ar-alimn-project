@@ -23,18 +23,18 @@ def ar_demo():
 # === API ROUTE TO SERVE MODEL IMAGE FOR AR DEMO ===
 @app.route("/get_model")
 def get_model():
-    model_path = os.path.join(app.static_folder, 'images', 'chair.png')
-    if not os.path.exists(model_path):
-        print(f"❌ Chair model not found at {model_path}")
+    chair_path = os.path.join(app.static_folder, 'images', 'chair.png')
+    if not os.path.exists(chair_path):
+        print(f"❌ Chair model not found at {chair_path}")
     else:
-        print(f"✅ Chair model found: {model_path}")
+        print(f"✅ Chair model found: {chair_path}")
     return jsonify({"model_url": url_for('static', filename='images/chair.png')})
 
-# === STATIC FILES ROUTE (OPTIONAL) ===
+# === STATIC FILES SERVING (only used for render fallback or CDN-like access) ===
 @app.route('/static/<path:filename>')
 def static_files(filename):
     return send_from_directory('static', filename)
 
-# === RUN SERVER ===
+# === RUN THE SERVER ===
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=10000)

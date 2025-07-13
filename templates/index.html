@@ -2,33 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AR ALIMN - Home</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home | AR ALIMN</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <script defer src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
   {% include 'header.html' %}
 
-  <main class="hero">
+  <section class="hero">
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="AR ALIMN Logo" class="logo-large" />
     <h1>Bring Your Space to Life with AR Furniture</h1>
     <p>Instantly visualize furniture in your room using our Augmented Reality experience.</p>
+  </section>
 
-    <div class="features">
-      <div>
-        <h3>📱 Easy to Use</h3>
-        <p>Click and view furniture in your room instantly using your device’s camera.</p>
-      </div>
-      <div>
-        <h3>🎯 True-to-Scale</h3>
-        <p>Accurate size and placement to match your actual space.</p>
-      </div>
-      <div>
-        <h3>🌐 App-Free</h3>
-        <p>No installation needed. Works on all modern browsers.</p>
-      </div>
+  <section class="features">
+    <div class="feature">
+      <span class="icon">📱</span>
+      <h3>Easy to Use</h3>
+      <p>Click and view furniture in your room instantly using your device’s camera.</p>
     </div>
-  </main>
+    <div class="feature">
+      <span class="icon">🎯</span>
+      <h3>True-to-Scale</h3>
+      <p>Accurate size and placement to match your actual space.</p>
+    </div>
+    <div class="feature">
+      <span class="icon">🚫📱</span>
+      <h3>App-Free</h3>
+      <p>No installation needed. Works on all modern browsers.</p>
+    </div>
+  </section>
 
   {% include 'footer.html' %}
 </body>

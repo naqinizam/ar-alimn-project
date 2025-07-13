@@ -2,31 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>AR ALIMN - Products</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products | AR ALIMN</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <script defer src="{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
   {% include 'header.html' %}
 
-  <main>
-    <h1>Our Products</h1>
-    <p>Explore our curated selection of quality furniture:</p>
+  <section class="hero small">
+    <h1>Our Furniture Collection</h1>
+    <p>Choose your item and visualize it directly in your space using AR.</p>
+  </section>
 
-    <section class="product-grid">
-      <div class="product-card">
-        <img src="{{ url_for('static', filename='images/chair.png') }}" alt="Chair">
-        <h2>Modern Armchair</h2>
-        <p>Comfortable, stylish, and perfect for living spaces.</p>
-      </div>
-      <div class="product-card">
-        <img src="{{ url_for('static', filename='images/table.png') }}" alt="Table">
-        <h2>Wooden Dining Table</h2>
-        <p>Elegant, durable, and ideal for gatherings or daily use.</p>
-      </div>
-    </section>
-  </main>
+  <section class="product-gallery">
+    <div class="product-card">
+      <img src="{{ url_for('static', filename='images/chair.png') }}" alt="Chair" />
+      <h3>Minimalist Chair</h3>
+      <p>Elegant and comfortable. Perfect for modern homes.</p>
+    </div>
+    <div class="product-card">
+      <img src="{{ url_for('static', filename='images/table.png') }}" alt="Table" />
+      <h3>Wooden Table</h3>
+      <p>Solid wood finish with a clean, modern design.</p>
+    </div>
+  </section>
 
   {% include 'footer.html' %}
 </body>

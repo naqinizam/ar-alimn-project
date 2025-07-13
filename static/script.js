@@ -1,4 +1,6 @@
+// ======================
 // 🌙 DARK MODE TOGGLE
+// ======================
 const themeToggle = document.getElementById("toggle-theme");
 const body = document.body;
 
@@ -6,11 +8,11 @@ function setTheme(mode) {
   if (mode === "dark") {
     body.classList.add("dark");
     localStorage.setItem("theme", "dark");
-    themeToggle.textContent = "☀️";
+    if (themeToggle) themeToggle.textContent = "☀️";
   } else {
     body.classList.remove("dark");
     localStorage.setItem("theme", "light");
-    themeToggle.textContent = "🌙";
+    if (themeToggle) themeToggle.textContent = "🌙";
   }
 }
 
@@ -23,24 +25,32 @@ themeToggle?.addEventListener("click", () => {
   setTheme(current === "dark" ? "light" : "dark");
 });
 
-// 📷 AR OBJECT LOGIC
+
+// ======================
+// 📷 AR CAMERA + OBJECT
+// ======================
 let scale = 1;
 let rotation = 0;
 let posX = 0;
 let posY = 0;
 let isDragging = false;
-let startX, startY, initialDistance = 0;
+let startX, startY;
+let initialDistance = 0;
 
 document.addEventListener("DOMContentLoaded", () => {
   const arButton = document.getElementById("start-ar");
   const arObject = document.getElementById("ar-object");
   const cameraFeed = document.getElementById("camera-feed");
 
-  if (!arButton || !arObject || !cameraFeed) return;
+  if (!arButton || !arObject || !cameraFeed) return; // Not AR page
 
   arButton.addEventListener("click", async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+      document.querySelector(".hero")?.remove();
+
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" }
+      });
       cameraFeed.srcObject = stream;
 
       const res = await fetch("/get_model");
@@ -49,15 +59,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
       arObject.onload = () => {
         arObject.style.display = "block";
-        centerObject();
+        centerObject(); // Center after loading
       };
     } catch (err) {
-      console.error("AR error", err);
-      alert("Camera access or model failed.");
+      console.error("AR init failed:", err);
+      alert("Unable to start AR. Check camera permissions.");
     }
   });
 
   function centerObject() {
+    const box = cameraFeed.getBoundingClientRect();
+    const obj = arObject.getBoundingClientRect();
+
     posX = (cameraFeed.offsetWidth - arObject.offsetWidth) / 2;
     posY = (cameraFeed.offsetHeight - arObject.offsetHeight) / 2;
     updateObjectTransform();
@@ -71,22 +84,24 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
-  arObject.addEventListener("mousedown", e => {
+  arObject.addEventListener("mousedown", (e) => {
     isDragging = true;
     startX = e.clientX - posX;
     startY = e.clientY - posY;
   });
 
-  document.addEventListener("mousemove", e => {
+  document.addEventListener("mousemove", (e) => {
     if (!isDragging) return;
     posX = e.clientX - startX;
     posY = e.clientY - startY;
     updateObjectTransform();
   });
 
-  document.addEventListener("mouseup", () => isDragging = false);
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+  });
 
-  arObject.addEventListener("touchstart", e => {
+  arObject.addEventListener("touchstart", (e) => {
     if (e.touches.length === 1) {
       isDragging = true;
       startX = e.touches[0].clientX - posX;
@@ -99,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, { passive: false });
 
-  document.addEventListener("touchmove", e => {
+  document.addEventListener("touchmove", (e) => {
     if (e.touches.length === 1 && isDragging) {
       posX = e.touches[0].clientX - startX;
       posY = e.touches[0].clientY - startY;
@@ -117,17 +132,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }, { passive: false });
 
-  document.addEventListener("touchend", () => isDragging = false);
+  document.addEventListener("touchend", () => {
+    isDragging = false;
+  });
 
-  arObject.addEventListener("contextmenu", e => {
+  arObject.addEventListener("contextmenu", (e) => {
     e.preventDefault();
     rotation += 30;
     updateObjectTransform();
   });
 
-  arObject.addEventListener("wheel", e => {
+  arObject.addEventListener("wheel", (e) => {
     e.preventDefault();
     scale = Math.min(Math.max(0.5, scale - e.deltaY * 0.01), 3);
     updateObjectTransform();
   }, { passive: false });
+
 });
