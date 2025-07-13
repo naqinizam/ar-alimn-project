@@ -144,14 +144,14 @@
       <span>AR ALIMN</span>
     </div>
     <nav>
-      <a href="#">Home</a>
-      <a href="#">Products</a>
-      <a href="#">AR Demo</a>
-      <a href="#">Contact</a>
+      <a href="#home">Home</a>
+      <a href="#products">Products</a>
+      <a href="#ar-container">AR Demo</a>
+      <a href="#contact">Contact</a>
     </nav>
   </header>
 
-  <section class="hero">
+  <section class="hero" id="home">
     <h1>Visualize Furniture in Your Space</h1>
     <p>Augmented Reality shopping made easy and stylish.</p>
   </section>
@@ -162,6 +162,36 @@
     </div>
     <button id="start-btn">Start AR</button>
   </div>
+
+  <!-- PRODUCTS SECTION -->
+  <section id="products" style="padding: 40px 20px; text-align: center;">
+    <h2 style="margin-bottom: 30px;">Our Products</h2>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
+      <div style="background: white; border-radius: 12px; padding: 20px; width: 220px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <img src="{{ url_for('static', filename='chair.png') }}" alt="Chair" style="width: 100%; border-radius: 8px;">
+        <h3>Chair</h3>
+        <p>Modern chair for living rooms.</p>
+        <button onclick="startAR()">Try in AR</button>
+      </div>
+      <div style="background: white; border-radius: 12px; padding: 20px; width: 220px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <img src="{{ url_for('static', filename='table.png') }}" alt="Table" style="width: 100%; border-radius: 8px;">
+        <h3>Table</h3>
+        <p>Minimalist dining table.</p>
+        <button onclick="startAR()">Try in AR</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" style="padding: 40px 20px; background: #f1f2f6; text-align: center;">
+    <h2>Contact Us</h2>
+    <form style="max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px;">
+      <input type="text" placeholder="Your Name" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+      <input type="email" placeholder="Your Email" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+      <textarea placeholder="Your Message" required style="padding: 10px; border-radius: 6px; border: 1px solid #ccc;"></textarea>
+      <button type="submit" style="padding: 12px; background-color: #0984e3; color: white; border: none; border-radius: 6px;">Send</button>
+    </form>
+  </section>
 
   <script>
     const video = document.getElementById('camera-stream');
