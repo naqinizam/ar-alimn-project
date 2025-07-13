@@ -1,0 +1,107 @@
+<!-- ar.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AR ALIMN | AR Demo</title>
+  <link rel="stylesheet" href="static/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <div class="logo"><i class="fas fa-couch"></i> AR ALIMN</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="products.html">Products</a>
+      <a href="ar.html">AR Demo</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <div id="ar-container">
+    <div id="camera-wrapper">
+      <video id="camera-stream" autoplay playsinline></video>
+    </div>
+    <button id="start-btn">Start AR</button>
+  </div>
+
+  <script>
+    const video = document.getElementById('camera-stream');
+    const btn = document.getElementById('start-btn');
+    const wrapper = document.getElementById('camera-wrapper');
+    let img = null;
+
+    btn.addEventListener('click', () => {
+      navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: "environment" } } })
+        .then(stream => {
+          video.srcObject = stream;
+          btn.style.display = "none";
+          loadChairImage();
+        })
+        .catch(() => {
+          navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+              video.srcObject = stream;
+              btn.style.display = "none";
+              loadChairImage();
+            });
+        });
+    });
+
+    function loadChairImage() {
+      fetch('/get_model')
+        .then(res => res.json())
+        .then(data => {
+          img = document.createElement('img');
+          img.src = data.model_url;
+          img.alt = 'Chair';
+          img.id = 'chair';
+          wrapper.appendChild(img);
+          makeInteractive(img);
+        });
+    }
+
+    function makeInteractive(el) {
+      let isDragging = false;
+      let lastX = 0, lastY = 0;
+      let scale = 1;
+      let rotation = 0;
+
+      el.addEventListener('mousedown', e => {
+        isDragging = true;
+        lastX = e.clientX;
+        lastY = e.clientY;
+        el.style.cursor = 'grabbing';
+      });
+
+      window.addEventListener('mousemove', e => {
+        if (!isDragging) return;
+        const dx = e.clientX - lastX;
+        const dy = e.clientY - lastY;
+        el.style.left = `${el.offsetLeft + dx}px`;
+        el.style.top = `${el.offsetTop + dy}px`;
+        lastX = e.clientX;
+        lastY = e.clientY;
+      });
+
+      window.addEventListener('mouseup', () => {
+        isDragging = false;
+        el.style.cursor = 'grab';
+      });
+
+      window.addEventListener('wheel', e => {
+        if (!el) return;
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? -0.1 : 0.1;
+        scale = Math.max(0.1, scale + delta);
+        updateTransform();
+      });
+
+      function updateTransform() {
+        el.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${rotation}deg)`;
+      }
+    }
+  </script>
+</body>
+</html>
