@@ -1,41 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>AR ALIMN | AR Demo</title>
-  <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-  <header>
-    <div class="logo"><img src="/static/images/logo.png" alt="Logo"></div>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/products">Products</a>
-      <a href="/ar">AR Demo</a>
-      <a href="/contact">Contact</a>
-      <button id="toggle-theme">🌙</button>
-    </nav>
-  </header>
+{% include 'partials/header.html' %}
+<main>
+  <h1>Try Our AR Demo</h1>
+  <p>Tap “Start AR” to preview furniture in your room. Use gestures to move, zoom, or rotate the object.</p>
 
-  <section class="ar-wrapper">
-    <h1>Try It Now</h1>
-    <p>Click the button below to start your camera. Move the furniture with your fingers, zoom with scroll, and rotate with right-click.</p>
-
-    <div class="ar-view">
-      <video id="camera-feed" autoplay playsinline></video>
-      <img id="ar-object" alt="AR Model" />
-    </div>
-
+  <div class="ar-container">
+    <video id="camera-feed" autoplay playsinline muted></video>
+    <img id="ar-object" alt="AR Furniture">
     <button id="start-ar">Start AR</button>
-  </section>
-
-  <footer>
-    &copy; 2025 AR ALIMN. Follow us:
-    <a href="#">Facebook</a> |
-    <a href="#">Instagram</a> |
-    <a href="#">TikTok</a>
-  </footer>
-
-  <script src="/static/script.js"></script>
-</body>
-</html>
+  </div>
+</main>
+{% include 'partials/footer.html' %}

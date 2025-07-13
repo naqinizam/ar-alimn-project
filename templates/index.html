@@ -1,53 +1,15 @@
-<!-- templates/index.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>AR ALIMN | Home</title>
-  <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-  <header>
-    <div class="logo"><img src="/static/images/logo.png" alt="Logo"></div>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/products">Products</a>
-      <a href="/ar">AR Demo</a>
-      <a href="/contact">Contact</a>
-      <button id="toggle-theme">🌙</button>
-    </nav>
-  </header>
+{% include 'partials/header.html' %}
+<main>
+  <h1>Welcome to AR ALIMN</h1>
+  <p>Experience your furniture in real space with cutting-edge AR technology.</p>
 
-  <section class="hero">
-    <h1>Experience Furniture Like Never Before</h1>
-    <p>Visualize products in your space using AR. Shop smarter and faster.</p>
-  </section>
-
-  <section class="why-choose">
+  <section style="margin-top: 50px;">
     <h2>Why Choose AR ALIMN?</h2>
-    <div class="why-grid">
-      <div class="why-box">
-        <h3>Real-Time Visualization</h3>
-        <p>See how furniture fits in your room using your phone camera.</p>
-      </div>
-      <div class="why-box">
-        <h3>Modern & Lightweight</h3>
-        <p>Easy-to-use interface with fast loading models.</p>
-      </div>
-      <div class="why-box">
-        <h3>Trusted Design</h3>
-        <p>Our product catalog is handpicked for quality and style.</p>
-      </div>
-    </div>
+    <ul>
+      <li>📱 Easy-to-use AR visualization</li>
+      <li>🪑 Realistic 3D furniture models</li>
+      <li>🚚 Fast delivery & support</li>
+    </ul>
   </section>
-
-  <footer>
-    &copy; 2025 AR ALIMN. Follow us:
-    <a href="#">Facebook</a> |
-    <a href="#">Instagram</a> |
-    <a href="#">TikTok</a>
-  </footer>
-
-  <script src="/static/script.js"></script>
-</body>
-</html>
+</main>
+{% include 'partials/footer.html' %}

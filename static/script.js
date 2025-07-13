@@ -1,117 +1,154 @@
-// Theme Toggle
-const toggle = document.getElementById('toggle-theme');
-toggle.addEventListener('click', () => {
-  document.body.classList.toggle('dark');
-  toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+// ======================
+// 🌙 DARK MODE TOGGLE
+// ======================
+const themeToggle = document.getElementById("toggle-theme");
+const body = document.body;
+
+function setTheme(mode) {
+  if (mode === "dark") {
+    body.classList.add("dark");
+    localStorage.setItem("theme", "dark");
+    themeToggle.textContent = "☀️";
+  } else {
+    body.classList.remove("dark");
+    localStorage.setItem("theme", "light");
+    themeToggle.textContent = "🌙";
+  }
+}
+
+if (localStorage.getItem("theme") === "dark") {
+  setTheme("dark");
+}
+
+themeToggle?.addEventListener("click", () => {
+  const current = body.classList.contains("dark") ? "dark" : "light";
+  setTheme(current === "dark" ? "light" : "dark");
 });
 
-// AR Controls
+
+// ======================
+// 📷 AR CAMERA + OBJECT
+// ======================
 let scale = 1;
 let rotation = 0;
 let posX = 0;
 let posY = 0;
 let isDragging = false;
-let startX, startY, initialDistance = 0;
+let startX, startY;
+let initialDistance = 0;
 
-const cameraFeed = document.getElementById("camera-feed");
-const arObject = document.getElementById("ar-object");
-const startBtn = document.getElementById("start-ar");
+// Run only on AR Demo page
+document.addEventListener("DOMContentLoaded", () => {
+  const arButton = document.getElementById("start-ar");
+  const arObject = document.getElementById("ar-object");
+  const cameraFeed = document.getElementById("camera-feed");
 
-if (startBtn) {
-  startBtn.addEventListener("click", async () => {
+  if (!arButton || !arObject || !cameraFeed) return; // Not on AR page
+
+  arButton.addEventListener("click", async () => {
     try {
+      document.querySelector(".hero")?.remove();
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          facingMode: { exact: "environment" }
-        }
+        video: { facingMode: "environment" }
       });
-
       cameraFeed.srcObject = stream;
 
       const res = await fetch("/get_model");
       const data = await res.json();
+      arObject.src = data.model_url || "https://i.imgur.com/JqYeZLn.png";
 
-      arObject.src = data.model_url;
-      arObject.style.display = "block";
-
-      // Position object in center
-      setTimeout(() => {
-        const feedBox = cameraFeed.getBoundingClientRect();
-        const objBox = arObject.getBoundingClientRect();
-        posX = (feedBox.width - objBox.width) / 2;
-        posY = (feedBox.height - objBox.height) / 2;
-        updateTransform();
-      }, 300);
-
+      arObject.onload = () => {
+        arObject.style.display = "block";
+        centerObject();
+      };
     } catch (err) {
-      console.error("Camera failed:", err);
-      alert("Unable to access camera. Please use HTTPS and allow permissions.");
+      console.error("AR initialization failed", err);
+      alert("Unable to access camera or load model.");
     }
   });
 
-  // Interaction
-  arObject.addEventListener("mousedown", startDrag);
-  arObject.addEventListener("touchstart", handleTouchStart, { passive: false });
-  document.addEventListener("mousemove", drag);
-  document.addEventListener("touchmove", handleTouchMove, { passive: false });
-  document.addEventListener("mouseup", endDrag);
-  document.addEventListener("touchend", endDrag);
+  // Center object
+  function centerObject() {
+    posX = (cameraFeed.offsetWidth - arObject.offsetWidth) / 2;
+    posY = (cameraFeed.offsetHeight - arObject.offsetHeight) / 2;
+    updateObjectTransform();
+  }
 
-  arObject.addEventListener("wheel", (e) => {
-    e.preventDefault();
-    scale = Math.min(Math.max(0.5, scale + e.deltaY * -0.01), 3);
-    updateTransform();
-  });
+  // Update position, scale, rotation
+  function updateObjectTransform() {
+    arObject.style.transform = `
+      translate(${posX}px, ${posY}px)
+      scale(${scale})
+      rotate(${rotation}deg)
+    `;
+  }
 
-  arObject.addEventListener("contextmenu", (e) => {
-    e.preventDefault();
-    rotation += 15;
-    updateTransform();
-  });
-
-  function startDrag(e) {
+  // Dragging - Mouse
+  arObject.addEventListener("mousedown", (e) => {
     isDragging = true;
-    startX = (e.clientX || e.touches?.[0]?.clientX) - posX;
-    startY = (e.clientY || e.touches?.[0]?.clientY) - posY;
-  }
+    startX = e.clientX - posX;
+    startY = e.clientY - posY;
+  });
 
-  function drag(e) {
+  document.addEventListener("mousemove", (e) => {
     if (!isDragging) return;
-    posX = (e.clientX || e.touches?.[0]?.clientX) - startX;
-    posY = (e.clientY || e.touches?.[0]?.clientY) - startY;
-    updateTransform();
-  }
+    posX = e.clientX - startX;
+    posY = e.clientY - startY;
+    updateObjectTransform();
+  });
 
-  function handleTouchStart(e) {
-    if (e.touches.length === 1) startDrag(e);
-    else if (e.touches.length === 2) {
+  document.addEventListener("mouseup", () => {
+    isDragging = false;
+  });
+
+  // Dragging/Pinch - Touch
+  arObject.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 1) {
+      isDragging = true;
+      startX = e.touches[0].clientX - posX;
+      startY = e.touches[0].clientY - posY;
+    } else if (e.touches.length === 2) {
       initialDistance = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
       );
     }
-  }
+  }, { passive: false });
 
-  function handleTouchMove(e) {
-    if (e.touches.length === 2) {
+  document.addEventListener("touchmove", (e) => {
+    if (e.touches.length === 1 && isDragging) {
+      posX = e.touches[0].clientX - startX;
+      posY = e.touches[0].clientY - startY;
+      updateObjectTransform();
+    } else if (e.touches.length === 2) {
       e.preventDefault();
-      const currentDist = Math.hypot(
+      const currentDistance = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY
       );
-      scale = Math.min(Math.max(0.5, scale * (currentDist / initialDistance)), 3);
-      initialDistance = currentDist;
-      updateTransform();
-    } else {
-      drag(e);
+      scale *= currentDistance / initialDistance;
+      scale = Math.min(Math.max(0.5, scale), 3);
+      initialDistance = currentDistance;
+      updateObjectTransform();
     }
-  }
+  }, { passive: false });
 
-  function endDrag() {
+  document.addEventListener("touchend", () => {
     isDragging = false;
-  }
+  });
 
-  function updateTransform() {
-    arObject.style.transform = `translate(${posX}px, ${posY}px) scale(${scale}) rotate(${rotation}deg)`;
-  }
-}
+  // Rotate on right-click or long-press
+  arObject.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    rotation += 30;
+    updateObjectTransform();
+  });
+
+  // Zoom - Mouse wheel
+  arObject.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    scale = Math.min(Math.max(0.5, scale - e.deltaY * 0.01), 3);
+    updateObjectTransform();
+  }, { passive: false });
+
+});

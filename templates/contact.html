@@ -1,39 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>AR ALIMN | Contact</title>
-  <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-  <header>
-    <div class="logo"><img src="/static/images/logo.png" alt="Logo"></div>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/products">Products</a>
-      <a href="/ar">AR Demo</a>
-      <a href="/contact">Contact</a>
-      <button id="toggle-theme">🌙</button>
-    </nav>
-  </header>
-
-  <section id="contact">
-    <h1>Contact Us</h1>
-    <form>
-      <input type="text" placeholder="Your Name" required />
-      <input type="email" placeholder="Email" required />
-      <textarea placeholder="Your Message" rows="5" required></textarea>
-      <button type="submit">Send Message</button>
-    </form>
-  </section>
-
-  <footer>
-    &copy; 2025 AR ALIMN. Follow us:
-    <a href="#">Facebook</a> |
-    <a href="#">Instagram</a> |
-    <a href="#">TikTok</a>
-  </footer>
-
-  <script src="/static/script.js"></script>
-</body>
-</html>
+{% include 'partials/header.html' %}
+<main>
+  <h1>Contact Us</h1>
+  <p>Have questions? Reach us via:</p>
+  <ul>
+    <li>Email: support@aralimn.com</li>
+    <li>Phone: +6012-3456789</li>
+    <li>Instagram: @aralimn</li>
+  </ul>
+</main>
+{% include 'partials/footer.html' %}

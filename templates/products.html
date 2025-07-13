@@ -1,45 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>AR ALIMN | Products</title>
-  <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-  <header>
-    <div class="logo"><img src="/static/images/logo.png" alt="Logo"></div>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/products">Products</a>
-      <a href="/ar">AR Demo</a>
-      <a href="/contact">Contact</a>
-      <button id="toggle-theme">🌙</button>
-    </nav>
-  </header>
-
-  <section class="products">
-    <h1>Our Furniture Collection</h1>
-    <div class="product-grid">
-      <div class="product-card">
-        <img src="/static/images/chair.png" alt="Chair">
-        <h3>Minimalist Chair</h3>
-        <p>Comfortable and stylish for any modern interior.</p>
-      </div>
-      <div class="product-card">
-        <img src="/static/images/table.png" alt="Table">
-        <h3>Wooden Table</h3>
-        <p>Sturdy and elegant, perfect for dining or work.</p>
-      </div>
+{% include 'partials/header.html' %}
+<main>
+  <h1>Our Products</h1>
+  <div class="products">
+    <div class="product-card">
+      <img src="/static/images/chair.png" alt="Chair">
+      <h3>Classic Chair</h3>
+      <p>Elegant and comfortable seating solution for every home.</p>
     </div>
-  </section>
-
-  <footer>
-    &copy; 2025 AR ALIMN. Follow us:
-    <a href="#">Facebook</a> |
-    <a href="#">Instagram</a> |
-    <a href="#">TikTok</a>
-  </footer>
-
-  <script src="/static/script.js"></script>
-</body>
-</html>
+    <div class="product-card">
+      <img src="/static/images/table.png" alt="Table">
+      <h3>Modern Table</h3>
+      <p>Stylish table for dining and workspace environments.</p>
+    </div>
+  </div>
+</main>
+{% include 'partials/footer.html' %}
