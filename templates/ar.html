@@ -3,26 +3,27 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AR Demo | AR ALIMN</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-  <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+  <title>AR ALIMN | AR Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  {% include 'header.html' %}
 
-  <section class="hero small">
-    <h1>Live AR Furniture Demo</h1>
-    <p>Click the button below to start your camera and view the furniture in your space.</p>
-  </section>
+  {% include 'partials/header.html' %}
 
-  <section class="ar-section">
-    <div class="ar-box">
-      <video id="camera-feed" autoplay playsinline muted></video>
-      <img id="ar-object" alt="AR Object" />
+  <main class="page-content">
+    <h1>Augmented Reality Demo</h1>
+    <p class="subtext">Click the button below to launch your camera and visualize furniture in your environment.</p>
+
+    <div class="ar-container">
+      <video id="camera-feed" autoplay playsinline></video>
+      <img id="ar-object" alt="AR Furniture Object" />
     </div>
-    <button id="start-ar" class="primary-btn">Start AR</button>
-  </section>
 
-  {% include 'footer.html' %}
+    <button id="start-ar" class="cta-button">Start AR Experience</button>
+  </main>
+
+  {% include 'partials/footer.html' %}
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

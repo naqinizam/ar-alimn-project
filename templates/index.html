@@ -3,37 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home | AR ALIMN</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-  <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+  <title>AR ALIMN | Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  {% include 'header.html' %}
 
-  <section class="hero">
-    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="AR ALIMN Logo" class="logo-large" />
-    <h1>Bring Your Space to Life with AR Furniture</h1>
-    <p>Instantly visualize furniture in your room using our Augmented Reality experience.</p>
+  {% include 'partials/header.html' %}
+
+  <main class="hero">
+    <h1>Visualize Furniture in Your Space</h1>
+    <p>Augmented Reality shopping made easy and modern. Try before you buy.</p>
+    <a href="{{ url_for('ar_demo') }}" class="cta-button">Try AR Demo</a>
+  </main>
+
+  <section class="why-choose-us">
+    <h2>Why Choose AR ALIMN?</h2>
+    <div class="features-grid">
+      <div class="feature">
+        <i class="fas fa-vr-cardboard"></i>
+        <h3>AR Visualization</h3>
+        <p>Place furniture virtually in your space with accurate scaling.</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-mobile-alt"></i>
+        <h3>Mobile Friendly</h3>
+        <p>Access the experience right from your smartphone camera.</p>
+      </div>
+      <div class="feature">
+        <i class="fas fa-couch"></i>
+        <h3>Stylish Products</h3>
+        <p>Choose from a collection of modern and elegant furniture.</p>
+      </div>
+    </div>
   </section>
 
-  <section class="features">
-    <div class="feature">
-      <span class="icon">📱</span>
-      <h3>Easy to Use</h3>
-      <p>Click and view furniture in your room instantly using your device’s camera.</p>
-    </div>
-    <div class="feature">
-      <span class="icon">🎯</span>
-      <h3>True-to-Scale</h3>
-      <p>Accurate size and placement to match your actual space.</p>
-    </div>
-    <div class="feature">
-      <span class="icon">🚫📱</span>
-      <h3>App-Free</h3>
-      <p>No installation needed. Works on all modern browsers.</p>
-    </div>
+  <section class="featured-furniture">
+    <h2>Featured Furniture</h2>
+    <img src="{{ url_for('static', filename='images/table.png') }}" alt="Table Design">
   </section>
 
-  {% include 'footer.html' %}
+  {% include 'partials/footer.html' %}
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

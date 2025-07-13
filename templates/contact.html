@@ -3,33 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Contact | AR ALIMN</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
-  <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+  <title>AR ALIMN | Contact</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  {% include 'header.html' %}
 
-  <section class="hero small">
+  {% include 'partials/header.html' %}
+
+  <main class="page-content contact">
     <h1>Contact Us</h1>
-    <p>We’d love to hear from you. Reach out with any questions or suggestions.</p>
-  </section>
+    <p class="subtext">Have a question or suggestion? Reach out to us below.</p>
 
-  <section class="contact-form">
-    <form>
-      <label>Name</label>
-      <input type="text" placeholder="Your name" required />
-
-      <label>Email</label>
-      <input type="email" placeholder="you@example.com" required />
-
-      <label>Message</label>
-      <textarea rows="4" placeholder="Type your message..." required></textarea>
-
-      <button type="submit" class="primary-btn">Send Message</button>
+    <form class="contact-form">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea placeholder="Your Message..." rows="5" required></textarea>
+      <button type="submit" class="cta-button">Send Message</button>
     </form>
-  </section>
 
-  {% include 'footer.html' %}
+    <div class="map-placeholder">
+      <iframe src="https://maps.google.com/maps?q=Kuala%20Lumpur&t=&z=13&ie=UTF8&iwloc=&output=embed" width="100%" height="300" style="border:0;" allowfullscreen></iframe>
+    </div>
+  </main>
+
+  {% include 'partials/footer.html' %}
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
