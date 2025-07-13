@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>AR ALIMN | AR Demo</title>
-  <link rel="stylesheet" href="/static/style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
   <header>
-    <div class="logo">AR ALIMN</div>
+    <div class="logo"><img src="/static/images/logo.png" alt="Logo"></div>
     <nav>
       <a href="/">Home</a>
       <a href="/products">Products</a>
@@ -19,27 +17,23 @@
     </nav>
   </header>
 
-  <section class="hero">
-    <h1>Try Furniture in Your Space</h1>
-    <p>Launch the camera and interact with 3D furniture live in your environment.</p>
+  <section class="ar-wrapper">
+    <h1>Try It Now</h1>
+    <p>Click the button below to start your camera. Move the furniture with your fingers, zoom with scroll, and rotate with right-click.</p>
+
+    <div class="ar-view">
+      <video id="camera-feed" autoplay playsinline></video>
+      <img id="ar-object" alt="AR Model" />
+    </div>
+
     <button id="start-ar">Start AR</button>
   </section>
 
-  <section class="ar-wrapper">
-    <div class="ar-view" id="camera-container">
-      <video id="camera-feed" autoplay playsinline></video>
-      <img id="ar-object" alt="AR Furniture" style="display: none;" />
-    </div>
-    <div class="camera-error" style="display: none;">Failed to load camera or object.</div>
-  </section>
-
   <footer>
-    <p>Follow us: 
-      <a href="#"><i class="fab fa-facebook"></i></a> 
-      <a href="#"><i class="fab fa-instagram"></i></a> 
-      <a href="#"><i class="fab fa-twitter"></i></a>
-    </p>
-    <p>&copy; 2025 AR ALIMN. All rights reserved.</p>
+    &copy; 2025 AR ALIMN. Follow us:
+    <a href="#">Facebook</a> |
+    <a href="#">Instagram</a> |
+    <a href="#">TikTok</a>
   </footer>
 
   <script src="/static/script.js"></script>

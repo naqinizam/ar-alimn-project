@@ -3,7 +3,7 @@ import os
 
 app = Flask(__name__)
 
-# === HTML Page Routes ===
+# === PAGE ROUTES ===
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -20,24 +20,20 @@ def contact():
 def ar_demo():
     return render_template("ar.html")
 
-# === AR Model Endpoint ===
+# === GET MODEL IMAGE ===
 @app.route("/get_model")
 def get_model():
-    chair_path = os.path.join(app.static_folder, 'images', 'chair.png')
-
-    if not os.path.exists(chair_path):
-        print(f"❌ Error: Chair image not found at {chair_path}")
-        return jsonify({"error": "Chair image not found"}), 404
-    else:
-        print(f"✅ Chair image found at {chair_path}")
-
+    image_path = os.path.join(app.static_folder, 'images', 'chair.png')
+    if not os.path.exists(image_path):
+        print("❌ Model image not found.")
+        return jsonify({"error": "Model not found"}), 404
     return jsonify({"model_url": "/static/images/chair.png"})
 
-# === Static File Handling ===
+# === STATIC FILES ===
 @app.route('/static/<path:filename>')
 def serve_static(filename):
     return send_from_directory('static', filename)
 
-# === Run App ===
+# === RUN ===
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000, debug=True)
