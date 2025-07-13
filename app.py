@@ -21,6 +21,7 @@ def ar_demo():
 
 @app.route("/get_model")
 def get_model():
+    model_path = os.path.join(app.static_folder, 'images', 'chair.png')
     return jsonify({"model_url": "/static/images/chair.png"})
 
 @app.route("/static/<path:filename>")
