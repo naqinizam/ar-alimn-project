@@ -1,51 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AR ALIMN | Home</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-</head>
-<body>
+{% include 'partials/header.html' %}
 
-  {% include 'partials/header.html' %}
+<main class="home">
+  <section class="hero-section">
+    <h1>Bring Your Space to Life with AR Furniture</h1>
+    <p>Visualize furniture in your actual room using just your phone camera. No apps needed.</p>
+    <img src="{{ url_for('static', filename='images/chair.png') }}" alt="AR Chair" class="home-chair">
+  </section>
 
-  <main class="hero">
-    <h1>Visualize Furniture in Your Space</h1>
-    <p>Augmented Reality shopping made easy and modern. Try before you buy.</p>
-    <a href="{{ url_for('ar_demo') }}" class="cta-button">Try AR Demo</a>
-  </main>
-
-  <section class="why-choose-us">
+  <section class="why-us">
     <h2>Why Choose AR ALIMN?</h2>
-    <div class="features-grid">
+    <div class="features">
       <div class="feature">
-        <i class="fas fa-vr-cardboard"></i>
-        <h3>AR Visualization</h3>
-        <p>Place furniture virtually in your space with accurate scaling.</p>
+        <span>📷</span>
+        <h3>Easy to Use</h3>
+        <p>Just tap and visualize furniture instantly using your device’s camera.</p>
       </div>
       <div class="feature">
-        <i class="fas fa-mobile-alt"></i>
-        <h3>Mobile Friendly</h3>
-        <p>Access the experience right from your smartphone camera.</p>
+        <span>📏</span>
+        <h3>True-to-Scale</h3>
+        <p>Accurate size and placement of furniture for better decision making.</p>
       </div>
       <div class="feature">
-        <i class="fas fa-couch"></i>
-        <h3>Stylish Products</h3>
-        <p>Choose from a collection of modern and elegant furniture.</p>
+        <span>🌐</span>
+        <h3>No App Needed</h3>
+        <p>Fully browser-based AR — works on all modern smartphones.</p>
       </div>
     </div>
   </section>
+</main>
 
-  <section class="featured-furniture">
-    <h2>Featured Furniture</h2>
-    <img src="{{ url_for('static', filename='images/table.png') }}" alt="Table Design">
-  </section>
-
-  {% include 'partials/footer.html' %}
-
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+{% include 'partials/footer.html' %}
