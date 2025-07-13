@@ -1,32 +1,39 @@
 {% include 'partials/header.html' %}
 
-<main class="home">
+<div class="page-content">
+  <!-- HERO SECTION -->
   <section class="hero-section">
-    <h1>Bring Your Space to Life with AR Furniture</h1>
-    <p>Visualize furniture in your actual room using just your phone camera. No apps needed.</p>
-    <img src="{{ url_for('static', filename='images/chair.png') }}" alt="AR Chair" class="home-chair">
+    <div class="hero-text">
+      <h1>Experience Furniture in AR</h1>
+      <p>Place your favorite furniture in your real space with our simple AR tool. No app needed — just your browser!</p>
+      <a href="/ar" class="cta-button">Try AR Demo</a>
+    </div>
+    <div class="hero-image">
+      <img src="{{ url_for('static', filename='images/chair.png') }}" alt="Hero Chair">
+    </div>
   </section>
 
-  <section class="why-us">
-    <h2>Why Choose AR ALIMN?</h2>
-    <div class="features">
-      <div class="feature">
-        <span>📷</span>
-        <h3>Easy to Use</h3>
-        <p>Just tap and visualize furniture instantly using your device’s camera.</p>
+  <!-- WHY CHOOSE US SECTION -->
+  <section class="features-section">
+    <h2>Why Choose AR-ALIMN?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <i class="fas fa-couch"></i>
+        <h3>Realistic Furniture Preview</h3>
+        <p>See how the furniture fits and looks in your own home before buying.</p>
       </div>
-      <div class="feature">
-        <span>📏</span>
-        <h3>True-to-Scale</h3>
-        <p>Accurate size and placement of furniture for better decision making.</p>
+      <div class="feature-card">
+        <i class="fas fa-mobile-alt"></i>
+        <h3>No App Required</h3>
+        <p>All you need is your mobile browser — no installations or setup.</p>
       </div>
-      <div class="feature">
-        <span>🌐</span>
-        <h3>No App Needed</h3>
-        <p>Fully browser-based AR — works on all modern smartphones.</p>
+      <div class="feature-card">
+        <i class="fas fa-headset"></i>
+        <h3>Customer Support</h3>
+        <p>Our team is ready to help you make the perfect choice for your space.</p>
       </div>
     </div>
   </section>
-</main>
+</div>
 
 {% include 'partials/footer.html' %}
