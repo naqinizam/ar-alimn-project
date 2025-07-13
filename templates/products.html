@@ -1,19 +1,33 @@
-{% include 'partials/header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AR ALIMN - Products</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+  {% include 'header.html' %}
 
-<main class="products">
-  <h1>Our Products</h1>
-  <div class="product-grid">
-    <div class="product-card">
-      <img src="/static/images/chair.png" alt="Chair" />
-      <h3>Elegant Chair</h3>
-      <p>Comfortable and modern design, perfect for living rooms and offices.</p>
-    </div>
-    <div class="product-card">
-      <img src="/static/images/table.png" alt="Table" />
-      <h3>Minimalist Table</h3>
-      <p>Clean design with sturdy finish, fits any modern home or workspace.</p>
-    </div>
-  </div>
-</main>
+  <main>
+    <h1>Our Products</h1>
+    <p>Explore our curated selection of quality furniture:</p>
 
-{% include 'partials/footer.html' %}
+    <section class="product-grid">
+      <div class="product-card">
+        <img src="{{ url_for('static', filename='images/chair.png') }}" alt="Chair">
+        <h2>Modern Armchair</h2>
+        <p>Comfortable, stylish, and perfect for living spaces.</p>
+      </div>
+      <div class="product-card">
+        <img src="{{ url_for('static', filename='images/table.png') }}" alt="Table">
+        <h2>Wooden Dining Table</h2>
+        <p>Elegant, durable, and ideal for gatherings or daily use.</p>
+      </div>
+    </section>
+  </main>
+
+  {% include 'footer.html' %}
+</body>
+</html>

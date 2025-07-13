@@ -1,13 +1,33 @@
-{% extends "base.html" %}
-{% block content %}
-<main>
-  <h1>Contact Us</h1>
-  <p>We'd love to hear from you. Drop us a message below.</p>
-  <form class="contact-form">
-    <input type="text" placeholder="Your Name" required>
-    <input type="email" placeholder="Your Email" required>
-    <textarea placeholder="Your Message..." required></textarea>
-    <button class="btn" type="submit">Send Message</button>
-  </form>
-</main>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AR ALIMN - Contact</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+  {% include 'header.html' %}
+
+  <main>
+    <h1>Contact Us</h1>
+    <p>Have questions or feedback? We’d love to hear from you.</p>
+
+    <form class="contact-form">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea placeholder="Your Message" required></textarea>
+      <button class="btn" type="submit">Send</button>
+    </form>
+
+    <iframe
+      src="https://www.google.com/maps?q=Kuala+Lumpur&output=embed"
+      width="100%" height="300" frameborder="0"
+      style="margin-top: 30px; border: none;">
+    </iframe>
+  </main>
+
+  {% include 'footer.html' %}
+</body>
+</html>

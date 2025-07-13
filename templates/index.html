@@ -1,35 +1,35 @@
-{% include 'partials/header.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AR ALIMN - Home</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+  {% include 'header.html' %}
 
-<main class="home">
-  <section class="hero">
-    <div class="hero-content">
-      <h1>Visualize Furniture in Your Space</h1>
-      <p>Bring your room to life with AR technology — try before you buy.</p>
-      <a href="/ar" class="btn">Try AR Demo</a>
-    </div>
-    <img src="/static/images/hero-furniture.jpg" alt="Furniture" class="hero-image" />
-  </section>
+  <main class="hero">
+    <h1>Bring Your Space to Life with AR Furniture</h1>
+    <p>Instantly visualize furniture in your room using our Augmented Reality experience.</p>
 
-  <section class="why-us">
-    <h2>Why Choose AR-ALIMN?</h2>
     <div class="features">
-      <div class="feature">
-        <i class="fas fa-cube"></i>
-        <h3>Real-Time Placement</h3>
-        <p>Visualize chairs and tables instantly in your space using your camera.</p>
+      <div>
+        <h3>📱 Easy to Use</h3>
+        <p>Click and view furniture in your room instantly using your device’s camera.</p>
       </div>
-      <div class="feature">
-        <i class="fas fa-sync-alt"></i>
-        <h3>Fully Interactive</h3>
-        <p>Rotate, scale, and move objects with simple touch or mouse gestures.</p>
+      <div>
+        <h3>🎯 True-to-Scale</h3>
+        <p>Accurate size and placement to match your actual space.</p>
       </div>
-      <div class="feature">
-        <i class="fas fa-lightbulb"></i>
-        <h3>Smart Shopping</h3>
-        <p>Buy with confidence after previewing furniture in your room.</p>
+      <div>
+        <h3>🌐 App-Free</h3>
+        <p>No installation needed. Works on all modern browsers.</p>
       </div>
     </div>
-  </section>
-</main>
+  </main>
 
-{% include 'partials/footer.html' %}
+  {% include 'footer.html' %}
+</body>
+</html>

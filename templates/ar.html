@@ -1,13 +1,26 @@
-{% extends "base.html" %}
-{% block content %}
-<main>
-  <h1>AR Demo</h1>
-  <p>Click the button below to activate your camera and place the furniture in your space. You can drag, zoom, and rotate the object.</p>
-  <button id="start-ar" class="btn">Start AR</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AR ALIMN - AR Demo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <script defer src="{{ url_for('static', filename='js/script.js') }}"></script>
+</head>
+<body>
+  {% include 'header.html' %}
 
-  <div class="ar-view">
+  <main class="hero">
+    <h1>AR Furniture Demo</h1>
+    <p>Click the button below to activate your camera and place the furniture in your space.</p>
+    <button id="start-ar" class="btn">Start AR</button>
+  </main>
+
+  <div class="ar-card">
     <video id="camera-feed" autoplay playsinline></video>
-    <img id="ar-object" alt="AR Furniture">
+    <img id="ar-object" alt="AR Object">
   </div>
-</main>
-{% endblock %}
+
+  {% include 'footer.html' %}
+</body>
+</html>

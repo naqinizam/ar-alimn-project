@@ -1,4 +1,4 @@
-// === DARK MODE TOGGLE ===
+// 🌙 DARK MODE TOGGLE
 const themeToggle = document.getElementById("toggle-theme");
 const body = document.body;
 
@@ -23,15 +23,22 @@ themeToggle?.addEventListener("click", () => {
   setTheme(current === "dark" ? "light" : "dark");
 });
 
-// === AR DEMO CAMERA CONTROL ===
+// 📷 AR OBJECT LOGIC
+let scale = 1;
+let rotation = 0;
+let posX = 0;
+let posY = 0;
+let isDragging = false;
+let startX, startY, initialDistance = 0;
+
 document.addEventListener("DOMContentLoaded", () => {
-  const arBtn = document.getElementById("start-ar");
+  const arButton = document.getElementById("start-ar");
   const arObject = document.getElementById("ar-object");
   const cameraFeed = document.getElementById("camera-feed");
 
-  if (!arBtn || !arObject || !cameraFeed) return;
+  if (!arButton || !arObject || !cameraFeed) return;
 
-  arBtn.addEventListener("click", async () => {
+  arButton.addEventListener("click", async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
       cameraFeed.srcObject = stream;
@@ -40,20 +47,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
       arObject.src = data.model_url || "https://i.imgur.com/JqYeZLn.png";
 
-      // Wait for both video and image to be ready
-      cameraFeed.onloadedmetadata = () => {
-        arObject.onload = () => {
-          arObject.style.display = "block";
-          centerObject();
-        };
+      arObject.onload = () => {
+        arObject.style.display = "block";
+        centerObject();
       };
     } catch (err) {
-      console.error("AR failed", err);
-      alert("Camera access failed.");
+      console.error("AR error", err);
+      alert("Camera access or model failed.");
     }
   });
-
-  let scale = 1, rotation = 0, posX = 0, posY = 0, dragging = false, startX, startY;
 
   function centerObject() {
     posX = (cameraFeed.offsetWidth - arObject.offsetWidth) / 2;
@@ -70,29 +72,62 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   arObject.addEventListener("mousedown", e => {
-    dragging = true;
+    isDragging = true;
     startX = e.clientX - posX;
     startY = e.clientY - posY;
   });
 
   document.addEventListener("mousemove", e => {
-    if (!dragging) return;
+    if (!isDragging) return;
     posX = e.clientX - startX;
     posY = e.clientY - startY;
     updateObjectTransform();
   });
 
-  document.addEventListener("mouseup", () => dragging = false);
+  document.addEventListener("mouseup", () => isDragging = false);
 
-  arObject.addEventListener("wheel", e => {
-    e.preventDefault();
-    scale = Math.min(Math.max(0.5, scale - e.deltaY * 0.01), 3);
-    updateObjectTransform();
-  });
+  arObject.addEventListener("touchstart", e => {
+    if (e.touches.length === 1) {
+      isDragging = true;
+      startX = e.touches[0].clientX - posX;
+      startY = e.touches[0].clientY - posY;
+    } else if (e.touches.length === 2) {
+      initialDistance = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+    }
+  }, { passive: false });
+
+  document.addEventListener("touchmove", e => {
+    if (e.touches.length === 1 && isDragging) {
+      posX = e.touches[0].clientX - startX;
+      posY = e.touches[0].clientY - startY;
+      updateObjectTransform();
+    } else if (e.touches.length === 2) {
+      e.preventDefault();
+      const currentDistance = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      scale *= currentDistance / initialDistance;
+      scale = Math.min(Math.max(0.5, scale), 3);
+      initialDistance = currentDistance;
+      updateObjectTransform();
+    }
+  }, { passive: false });
+
+  document.addEventListener("touchend", () => isDragging = false);
 
   arObject.addEventListener("contextmenu", e => {
     e.preventDefault();
     rotation += 30;
     updateObjectTransform();
   });
+
+  arObject.addEventListener("wheel", e => {
+    e.preventDefault();
+    scale = Math.min(Math.max(0.5, scale - e.deltaY * 0.01), 3);
+    updateObjectTransform();
+  }, { passive: false });
 });
