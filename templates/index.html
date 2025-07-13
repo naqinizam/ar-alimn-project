@@ -1,15 +1,35 @@
 {% include 'partials/header.html' %}
-<main>
-  <h1>Welcome to AR ALIMN</h1>
-  <p>Experience your furniture in real space with cutting-edge AR technology.</p>
 
-  <section style="margin-top: 50px;">
-    <h2>Why Choose AR ALIMN?</h2>
-    <ul>
-      <li>📱 Easy-to-use AR visualization</li>
-      <li>🪑 Realistic 3D furniture models</li>
-      <li>🚚 Fast delivery & support</li>
-    </ul>
+<main class="container home">
+  <section class="hero-section">
+    <div class="hero-text">
+      <h1>See It Before You Buy</h1>
+      <p>Experience furniture shopping in a new way with AR technology.</p>
+      <a href="/ar" class="btn">Try AR Demo</a>
+    </div>
+    <img src="/static/images/hero-furniture.jpg" alt="Furniture showcase" class="hero-img" />
+  </section>
+
+  <section class="features">
+    <h2>Why Choose AR-ALIMN?</h2>
+    <div class="feature-grid">
+      <div class="feature-box">
+        <i class="fas fa-couch"></i>
+        <h3>Virtual Placement</h3>
+        <p>Place furniture in your room before buying. No more guesswork.</p>
+      </div>
+      <div class="feature-box">
+        <i class="fas fa-mobile-alt"></i>
+        <h3>Mobile-Friendly</h3>
+        <p>Use your smartphone camera to try products in your space instantly.</p>
+      </div>
+      <div class="feature-box">
+        <i class="fas fa-lightbulb"></i>
+        <h3>Smart Design</h3>
+        <p>Clean, modern design built for fast performance and beautiful visuals.</p>
+      </div>
+    </div>
   </section>
 </main>
+
 {% include 'partials/footer.html' %}

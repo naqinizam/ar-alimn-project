@@ -21,14 +21,11 @@ def ar_demo():
 
 @app.route("/get_model")
 def get_model():
-    chair_path = os.path.join(app.static_folder, 'images', 'chair.png')
-    if not os.path.exists(chair_path):
-        return jsonify({"error": "Chair image not found"}), 404
     return jsonify({"model_url": "/static/images/chair.png"})
 
-@app.route('/static/<path:filename>')
+@app.route("/static/<path:filename>")
 def serve_static(filename):
-    return send_from_directory('static', filename)
+    return send_from_directory("static", filename)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=10000, debug=True)
