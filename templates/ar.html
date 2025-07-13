@@ -20,16 +20,18 @@
   </header>
 
   <section class="hero">
-    <h1>AR Live Camera</h1>
-    <p>Tap below to view in real space.</p>
+    <h1>Try Furniture in Your Space</h1>
+    <p>Launch the camera and interact with 3D furniture live in your environment.</p>
     <button id="start-ar">Start AR</button>
   </section>
 
-  <div class="ar-card" style="display: none;">
-    <video id="camera-feed" autoplay playsinline></video>
-    <img id="ar-object" alt="3D Object" style="display: none;" />
+  <section class="ar-wrapper">
+    <div class="ar-view" id="camera-container">
+      <video id="camera-feed" autoplay playsinline></video>
+      <img id="ar-object" alt="AR Furniture" style="display: none;" />
+    </div>
     <div class="camera-error" style="display: none;">Failed to load camera or object.</div>
-  </div>
+  </section>
 
   <footer>
     <p>Follow us: 
