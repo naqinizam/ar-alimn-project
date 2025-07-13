@@ -10,41 +10,43 @@
 <body>
 {% include 'partials/header.html' %}
 
-<div class="page-content">
-  <!-- HERO SECTION -->
+<main class="page-content">
+
+  <!-- Hero Section -->
   <section class="hero-section">
     <div class="hero-text">
-      <h1>Experience Furniture in AR</h1>
-      <p>Place your favorite furniture in your real space with our simple AR tool. No app needed — just your browser!</p>
-      <a href="/ar" class="cta-button">Try AR Demo</a>
+      <h1>Bring Your Space to Life with AR</h1>
+      <p>Experience furniture in your home before you buy. Our cutting-edge AR technology makes shopping smarter and easier.</p>
+      <a href="/products" class="cta-button">Explore Products</a>
     </div>
     <div class="hero-image">
-      <img src="{{ url_for('static', filename='images/chair.png') }}" alt="Hero Chair">
+      <img src="{{ url_for('static', filename='images/hero-furniture.jpg') }}" alt="AR Furniture Demo">
     </div>
   </section>
 
-  <!-- WHY CHOOSE US SECTION -->
+  <!-- Why Choose Us Section -->
   <section class="features-section">
-    <h2>Why Choose AR-ALIMN?</h2>
+    <h2>Why Choose Us</h2>
     <div class="features-grid">
       <div class="feature-card">
         <i class="fas fa-couch"></i>
-        <h3>Realistic Furniture Preview</h3>
-        <p>See how the furniture fits and looks in your own home before buying.</p>
+        <h3>Real-Time AR</h3>
+        <p>Visualize furniture in your room using your phone's camera.</p>
       </div>
       <div class="feature-card">
-        <i class="fas fa-mobile-alt"></i>
-        <h3>No App Required</h3>
-        <p>All you need is your mobile browser — no installations or setup.</p>
+        <i class="fas fa-cube"></i>
+        <h3>3D Models</h3>
+        <p>High-quality, realistic furniture models enhance your decision-making.</p>
       </div>
       <div class="feature-card">
-        <i class="fas fa-headset"></i>
-        <h3>Customer Support</h3>
-        <p>Our team is ready to help you make the perfect choice for your space.</p>
+        <i class="fas fa-smile-beam"></i>
+        <h3>User-Friendly</h3>
+        <p>Simple, intuitive interface — no app required.</p>
       </div>
     </div>
   </section>
-</div>
+
+</main>
 
 {% include 'partials/footer.html' %}
   <script src="{{ url_for('static', filename='script.js') }}"></script>
