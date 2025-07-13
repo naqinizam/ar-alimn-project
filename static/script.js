@@ -1,4 +1,4 @@
-// AR Control Variables
+// ========== AR CONTROL ========== //
 let scale = 1;
 let rotation = 0;
 let posX = 0;
@@ -7,14 +7,12 @@ let isDragging = false;
 let startX, startY;
 let initialDistance = 0;
 
-// Initialize AR Experience
-document.getElementById("start-ar").addEventListener("click", async () => {
+// Start AR Button
+document.getElementById("start-ar")?.addEventListener("click", async () => {
     try {
-        // Show AR View
         document.querySelector(".hero").style.display = "none";
         document.querySelector(".ar-card").style.display = "block";
 
-        // 1. Start Camera Feed
         const cameraFeed = document.getElementById("camera-feed");
         const stream = await navigator.mediaDevices.getUserMedia({
             video: {
@@ -25,28 +23,23 @@ document.getElementById("start-ar").addEventListener("click", async () => {
         });
         cameraFeed.srcObject = stream;
 
-        // 2. Load AR Object
         const arObject = document.getElementById("ar-object");
-        arObject.src = "/static/images/chair.png"; // Direct path for reliability
-        
-        // Fallback to online image if local fails
+        arObject.src = "/static/images/chair.png";
+
         arObject.onerror = () => {
             console.warn("Using fallback chair image");
             arObject.src = "https://i.imgur.com/JqYeZLn.png";
         };
 
-        // 3. Wait for Both Camera and Object to Load
         const startTime = Date.now();
         const readyCheck = setInterval(() => {
             const cameraReady = cameraFeed.videoWidth > 0;
             const objectReady = arObject.complete && arObject.naturalWidth > 0;
-            
             if (cameraReady && objectReady) {
                 clearInterval(readyCheck);
                 centerObject();
                 arObject.style.display = "block";
-            } 
-            else if (Date.now() - startTime > 5000) {
+            } else if (Date.now() - startTime > 5000) {
                 clearInterval(readyCheck);
                 throw new Error("Loading timeout - check camera/object");
             }
@@ -58,48 +51,36 @@ document.getElementById("start-ar").addEventListener("click", async () => {
     }
 });
 
-// Perfect Center Positioning
 function centerObject() {
     const cameraFeed = document.getElementById("camera-feed");
     const arObject = document.getElementById("ar-object");
-    
-    // Calculate center coordinates
     posX = (cameraFeed.offsetWidth - arObject.offsetWidth) / 2;
     posY = (cameraFeed.offsetHeight - arObject.offsetHeight) / 2;
-    
-    // Ensure stays within viewport bounds
     posX = Math.max(0, Math.min(posX, cameraFeed.offsetWidth - arObject.offsetWidth));
     posY = Math.max(0, Math.min(posY, cameraFeed.offsetHeight - arObject.offsetHeight));
-    
     updateObjectTransform();
 }
 
-// ====== USER CONTROLS ====== //
+// AR Object Events
 const arObject = document.getElementById("ar-object");
-
-// 1. Zoom (Mouse Wheel/Pinch)
-arObject.addEventListener("wheel", function(e) {
+arObject?.addEventListener("wheel", function(e) {
     e.preventDefault();
     scale = Math.min(Math.max(0.5, scale + e.deltaY * -0.01), 3);
     updateObjectTransform();
 }, { passive: false });
 
-// 2. Drag (Mouse/Touch)
-arObject.addEventListener("mousedown", startDrag);
-arObject.addEventListener("touchstart", handleTouchStart, { passive: false });
+arObject?.addEventListener("mousedown", startDrag);
+arObject?.addEventListener("touchstart", handleTouchStart, { passive: false });
 document.addEventListener("mousemove", drag);
 document.addEventListener("touchmove", handleTouchMove, { passive: false });
 document.addEventListener("mouseup", endDrag);
 document.addEventListener("touchend", endDrag);
-
-// 3. Rotate (Right-click/Long-press)
-arObject.addEventListener("contextmenu", (e) => {
+arObject?.addEventListener("contextmenu", (e) => {
     e.preventDefault();
     rotation += 30;
     updateObjectTransform();
 });
 
-// Control Functions
 function startDrag(e) {
     isDragging = true;
     startX = (e.clientX || e.touches[0].clientX) - posX;
@@ -149,7 +130,7 @@ function updateObjectTransform() {
     `;
 }
 
-// Browser Support Check
+// Fallback for Unsupported Browsers
 if (!navigator.mediaDevices?.getUserMedia) {
     document.getElementById('start-ar').disabled = true;
     document.querySelector('.hero').innerHTML += `
@@ -158,4 +139,14 @@ if (!navigator.mediaDevices?.getUserMedia) {
             AR requires Chrome/Firefox on mobile
         </div>
     `;
+}
+
+// ========== DARK MODE TOGGLE ========== //
+const toggleBtn = document.getElementById('toggle-theme');
+toggleBtn?.addEventListener('click', () => {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+});
+if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark-mode');
 }

@@ -4,45 +4,46 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AR ALIMN | Products</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <header>
-    <div class="logo">
-      <i class="fas fa-couch"></i>
-      <span>AR ALIMN</span>
-    </div>
+    <div class="logo">AR ALIMN</div>
     <nav>
       <a href="/">Home</a>
       <a href="/products">Products</a>
       <a href="/ar">AR Demo</a>
       <a href="/contact">Contact</a>
+      <button id="toggle-theme">🌙</button>
     </nav>
   </header>
 
-  <section class="hero">
-    <h1>Explore Our Collection</h1>
-    <p>Premium furniture with AR-ready previews</p>
-  </section>
-
-  <section style="background-color: #ffffff;">
-    <div class="product-list">
+  <section class="products">
+    <h1>Our Furniture</h1>
+    <div class="product-grid">
       <div class="product-card">
         <img src="/static/images/chair.png" alt="Chair">
         <h3>Modern Chair</h3>
-        <p>Elegant and ergonomic chair perfect for work and relaxation.</p>
-        <button onclick="location.href='/ar'">View in AR</button>
+        <button>Try in AR</button>
       </div>
       <div class="product-card">
         <img src="/static/images/table.png" alt="Table">
-        <h3>Minimalist Table</h3>
-        <p>Clean design, space-efficient, and built with durable materials.</p>
-        <button onclick="location.href='/ar'">View in AR</button>
+        <h3>Elegant Table</h3>
+        <button>Try in AR</button>
       </div>
-      <!-- Add more products here if needed -->
     </div>
   </section>
+
+  <footer>
+    <p>Follow us: 
+      <a href="#"><i class="fab fa-facebook"></i></a> 
+      <a href="#"><i class="fab fa-instagram"></i></a> 
+      <a href="#"><i class="fab fa-twitter"></i></a>
+    </p>
+    <p>&copy; 2025 AR ALIMN. All rights reserved.</p>
+  </footer>
+
+  <script src="/static/script.js"></script>
 </body>
 </html>

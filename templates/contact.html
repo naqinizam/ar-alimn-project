@@ -4,36 +4,40 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AR ALIMN | Contact</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <header>
-    <div class="logo">
-      <i class="fas fa-couch"></i>
-      <span>AR ALIMN</span>
-    </div>
+    <div class="logo">AR ALIMN</div>
     <nav>
       <a href="/">Home</a>
       <a href="/products">Products</a>
       <a href="/ar">AR Demo</a>
       <a href="/contact">Contact</a>
+      <button id="toggle-theme">🌙</button>
     </nav>
   </header>
 
-  <section class="hero">
-    <h1>Contact Us</h1>
-    <p>Have questions or feedback? We'd love to hear from you.</p>
-  </section>
-
   <section id="contact">
+    <h1>Contact Us</h1>
     <form>
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea placeholder="Your Message" rows="5" required></textarea>
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Email Address" required />
+      <textarea placeholder="Your Message" required></textarea>
       <button type="submit">Send Message</button>
     </form>
   </section>
+
+  <footer>
+    <p>Follow us: 
+      <a href="#"><i class="fab fa-facebook"></i></a> 
+      <a href="#"><i class="fab fa-instagram"></i></a> 
+      <a href="#"><i class="fab fa-twitter"></i></a>
+    </p>
+    <p>&copy; 2025 AR ALIMN. All rights reserved.</p>
+  </footer>
+
+  <script src="/static/script.js"></script>
 </body>
 </html>

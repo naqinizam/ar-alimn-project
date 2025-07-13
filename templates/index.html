@@ -4,51 +4,43 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AR ALIMN | Home</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
   <header>
-    <div class="logo">
-      <i class="fas fa-couch"></i>
-      <span>AR ALIMN</span>
-    </div>
+    <div class="logo">AR ALIMN</div>
     <nav>
       <a href="/">Home</a>
       <a href="/products">Products</a>
       <a href="/ar">AR Demo</a>
       <a href="/contact">Contact</a>
+      <button id="toggle-theme">🌙</button>
     </nav>
   </header>
 
   <section class="hero">
     <h1>Visualize Furniture in Your Space</h1>
-    <p>Augmented Reality shopping made elegant, intuitive, and effortless.</p>
+    <p>Use Augmented Reality to see how furniture fits in your room.</p>
   </section>
 
-  <section>
-    <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-      <h2 style="font-size: 2rem; margin-bottom: 20px;">Why Choose AR ALIMN?</h2>
-      <p style="font-size: 1.1rem; color: #636e72;">We bring you the power of Augmented Reality to preview furniture in your actual space before purchasing. Explore our curated catalog, and use our camera-powered AR experience to see how each piece fits into your home.</p>
+  <section class="intro">
+    <h2>Featured Products</h2>
+    <div class="product-preview">
+      <img src="/static/images/chair.png" alt="Chair" />
+      <img src="/static/images/table.png" alt="Table" />
     </div>
   </section>
 
-  <section style="background-color: #ffffff;">
-    <div class="product-list">
-      <div class="product-card">
-        <img src="/static/images/chair.png" alt="Chair">
-        <h3>Modern Chair</h3>
-        <p>Elegant, comfortable, and perfect for any modern living room.</p>
-        <button onclick="location.href='/ar'">Try in AR</button>
-      </div>
-      <div class="product-card">
-        <img src="/static/images/table.png" alt="Table">
-        <h3>Minimalist Table</h3>
-        <p>Space-saving and stylish — designed for simplicity and function.</p>
-        <button onclick="location.href='/ar'">Try in AR</button>
-      </div>
-    </div>
-  </section>
+  <footer>
+    <p>Follow us: 
+      <a href="#"><i class="fab fa-facebook"></i></a> 
+      <a href="#"><i class="fab fa-instagram"></i></a> 
+      <a href="#"><i class="fab fa-twitter"></i></a>
+    </p>
+    <p>&copy; 2025 AR ALIMN. All rights reserved.</p>
+  </footer>
+
+  <script src="/static/script.js"></script>
 </body>
 </html>
