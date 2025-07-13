@@ -13,42 +13,42 @@
 <main class="page-content">
 
   <!-- Hero Section -->
-  <section class="hero-section">
-    <div class="hero-text">
+  <section class="hero-section fade-in">
+    <div class="hero-text fade-in">
       <h1>Bring Your Space to Life with AR</h1>
       <p>Experience furniture in your home before you buy. Our cutting-edge AR technology makes shopping smarter and easier.</p>
       <a href="/products" class="cta-button">Explore Products</a>
     </div>
-    <div class="hero-image">
+    <div class="hero-image fade-in pop-hover">
       <img src="{{ url_for('static', filename='images/hero-furniture.jpg') }}" alt="AR Furniture Demo">
     </div>
   </section>
 
   <!-- Why Choose Us Section -->
-  <section class="features-section">
+  <section class="features-section fade-in">
     <h2>Why Choose Us</h2>
-    <div class="features-grid">
-      <div class="feature-card">
-        <i class="fas fa-couch"></i>
-        <h3>Real-Time AR</h3>
-        <p>Visualize furniture in your room using your phone's camera.</p>
-      </div>
-      <div class="feature-card">
-        <i class="fas fa-cube"></i>
-        <h3>3D Models</h3>
-        <p>High-quality, realistic furniture models enhance your decision-making.</p>
-      </div>
-      <div class="feature-card">
-        <i class="fas fa-smile-beam"></i>
-        <h3>User-Friendly</h3>
-        <p>Simple, intuitive interface — no app required.</p>
-      </div>
-    </div>
+   <div class="features-grid">
+  <div class="feature-card fade-in pop-hover">
+    <i class="fas fa-couch"></i>
+    <h3>Real-Time AR</h3>
+    <p>Visualize furniture in your room using your phone's camera.</p>
+  </div>
+  <div class="feature-card fade-in pop-hover">
+    <i class="fas fa-cube"></i>
+    <h3>3D Models</h3>
+    <p>High-quality, realistic furniture models enhance your decision-making.</p>
+  </div>
+  <div class="feature-card fade-in pop-hover">
+    <i class="fas fa-smile-beam"></i>
+    <h3>User-Friendly</h3>
+    <p>Simple, intuitive interface — no app required.</p>
+  </div>
+</div>
   </section>
 
 </main>
 
 {% include 'partials/footer.html' %}
-  <script src="{{ url_for('static', filename='script.js') }}"></script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

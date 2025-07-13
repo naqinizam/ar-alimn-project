@@ -11,17 +11,17 @@
 
   {% include 'partials/header.html' %}
 
-  <main class="page-content">
-    <h1>Our Featured Products</h1>
-    <p class="subtext">Explore our selection of modern, space-aware furniture pieces.</p>
+  <main class="page-content fade-in">
+    <h1 class="fade-in">Our Featured Products</h1>
+    <p class="subtext fade-in">Explore our selection of modern, space-aware furniture pieces.</p>
 
-    <div class="product-grid">
-      <div class="product-card">
+    <div class="product-grid fade-in pop-hover">
+      <div class="product-card fade-in">
         <img src="{{ url_for('static', filename='images/chair.png') }}" alt="Modern Chair">
         <h3>AR Chair</h3>
         <p>A sleek and comfortable chair, perfect for modern interiors.</p>
       </div>
-      <div class="product-card">
+      <div class="product-card fade-in pop-hover">
         <img src="{{ url_for('static', filename='images/table.png') }}" alt="Modern Table">
         <h3>AR Table</h3>
         <p>A sturdy and elegant table with a natural wood finish.</p>

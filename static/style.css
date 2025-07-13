@@ -389,3 +389,34 @@ footer a:hover {
   color: #ccc;
 }
 
+/* Simple Fade-in Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Trigger when visible using IntersectionObserver */
+.fade-in.visible {
+  opacity: 1;
+}
+/* Hover Pop-Up (Lift) Effect */
+.pop-hover {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.pop-hover:hover {
+  transform: translateY(-16px) scale(1.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}

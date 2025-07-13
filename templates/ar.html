@@ -11,16 +11,16 @@
 
   {% include 'partials/header.html' %}
 
-  <main class="page-content">
-    <h1>Augmented Reality Demo</h1>
-    <p class="subtext">Click the button below to launch your camera and visualize furniture in your environment.</p>
+  <main class="page-content fade-in">
+    <h1 class="fade-in">Augmented Reality Demo</h1>
+    <p class="subtext fade-in">Click the button below to launch your camera and visualize furniture in your environment.</p>
 
-    <div class="ar-container">
+    <div class="ar-container fade-in">
       <video id="camera-feed" autoplay playsinline></video>
       <img id="ar-object" alt="AR Furniture Object" />
     </div>
 
-    <button id="start-ar" class="cta-button">Start AR Experience</button>
+    <button id="start-ar" class="cta-button fade-in">Start AR Experience</button>
   </main>
 
   {% include 'partials/footer.html' %}
