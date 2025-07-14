@@ -469,3 +469,36 @@ footer a:hover {
   display: block;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
 }
+/* Smaller button for product cards */
+.cta-button.small {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  margin-top: 8px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none; /* remove underline */
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.cta-button.small:hover {
+  background-color: #0056b3;
+  text-decoration: none; /* keep underline removed on hover */
+}
+.ar-dropdown {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.dark .ar-dropdown {
+  background-color: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+

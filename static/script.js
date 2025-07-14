@@ -41,25 +41,32 @@ document.addEventListener("DOMContentLoaded", () => {
   const arButton = document.getElementById("start-ar");
   const arObject = document.getElementById("ar-object");
   const cameraFeed = document.getElementById("camera-feed");
+  const dropdown = document.getElementById("ar-item-select");
 
   if (!arButton || !arObject || !cameraFeed) return; // Not AR page
 
+  // Prefill dropdown if item from URL
+  if (dropdown) {
+    const itemFromURL = new URLSearchParams(window.location.search).get("item");
+    if (itemFromURL) dropdown.value = itemFromURL;
+  }
+
   arButton.addEventListener("click", async () => {
     try {
-      document.querySelector(".hero")?.remove();
+      const selectedItem = dropdown?.value || "chair";
 
       const stream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: "environment" }
       });
       cameraFeed.srcObject = stream;
 
-      const res = await fetch("/get_model");
+      const res = await fetch(`/get_model?item=${selectedItem}`);
       const data = await res.json();
       arObject.src = data.model_url || "https://i.imgur.com/JqYeZLn.png";
 
       arObject.onload = () => {
         arObject.style.display = "block";
-        centerObject(); // Center after loading
+        setTimeout(centerObject, 100); // Delay helps layout finish
       };
     } catch (err) {
       console.error("AR init failed:", err);
@@ -68,9 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function centerObject() {
-    const box = cameraFeed.getBoundingClientRect();
-    const obj = arObject.getBoundingClientRect();
-
     posX = (cameraFeed.offsetWidth - arObject.offsetWidth) / 2;
     posY = (cameraFeed.offsetHeight - arObject.offsetHeight) / 2;
     updateObjectTransform();
@@ -147,9 +151,12 @@ document.addEventListener("DOMContentLoaded", () => {
     scale = Math.min(Math.max(0.5, scale - e.deltaY * 0.01), 3);
     updateObjectTransform();
   }, { passive: false });
-
 });
 
+
+// ======================
+// 👀 Fade In on Scroll
+// ======================
 document.addEventListener("DOMContentLoaded", () => {
   const fadeElements = document.querySelectorAll(".fade-in");
 
@@ -165,4 +172,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fadeElements.forEach(el => observer.observe(el));
 });
-
