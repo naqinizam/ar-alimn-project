@@ -55,20 +55,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const selectedItem = dropdown?.value || "chair";
 
     try {
-      // Only request camera if not already running
-      if (!cameraFeed.srcObject) {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" }
-        });
-        cameraFeed.srcObject = stream;
-      }
-
-      // Fetch correct image for selected item
+      // Always get new object
       const res = await fetch(`/get_model?item=${selectedItem}`);
       const data = await res.json();
       arObject.src = data.model_url || "https://i.imgur.com/JqYeZLn.png";
 
-      // Show and center after layout
+      // Re-center when object loads
       arObject.onload = () => {
         arObject.style.display = "block";
         requestAnimationFrame(() => {
@@ -77,6 +69,14 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         });
       };
+
+      // Start camera only once
+      if (!cameraFeed.srcObject) {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" }
+        });
+        cameraFeed.srcObject = stream;
+      }
     } catch (err) {
       console.error("AR failed:", err);
       alert("Could not access camera. Please check permissions.");
