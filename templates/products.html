@@ -6,6 +6,7 @@
   <title>AR ALIMN | Products</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
 
@@ -13,7 +14,7 @@
 
   <main class="page-content fade-in">
     <h1 class="fade-in">Our Featured Products</h1>
-    <p class="subtext fade-in">Explore our selection of modern, space-aware furniture pieces.</p>
+    <p class="subtext fade-in">Explore our selection of modern, space-aware furniture pieces. Tap <strong>"View in AR"</strong> to see how each item fits in your room instantly.</p>
 
     <div class="product-grid fade-in pop-hover">
       <div class="product-card fade-in">
@@ -22,30 +23,35 @@
         <p>A sleek and comfortable chair, perfect for modern interiors.</p>
         <a href="/ar?item=chair" class="cta-button small">View in AR</a>
       </div>
+
       <div class="product-card fade-in">
         <img src="{{ url_for('static', filename='images/table.png') }}" alt="Modern Table">
         <h3>AR Table</h3>
         <p>A sturdy and elegant table with a natural wood finish.</p>
         <a href="/ar?item=table" class="cta-button small">View in AR</a>
       </div>
+
       <div class="product-card fade-in">
         <img src="{{ url_for('static', filename='images/lamp.png') }}" alt="Modern Lamp">
         <h3>AR Lamp</h3>
         <p>Minimalist lighting with a sleek modern design.</p>
         <a href="/ar?item=lamp" class="cta-button small">View in AR</a>
       </div>
+
       <div class="product-card fade-in">
         <img src="{{ url_for('static', filename='images/couch.png') }}" alt="Modern Couch">
         <h3>AR Couch</h3>
         <p>Comfort and style combined in one modern couch.</p>
         <a href="/ar?item=couch" class="cta-button small">View in AR</a>
       </div>
+
       <div class="product-card fade-in">
         <img src="{{ url_for('static', filename='images/wardrobe.png') }}" alt="Wardrobe">
         <h3>AR Wardrobe</h3>
         <p>A spacious wardrobe that fits into any room style.</p>
         <a href="/ar?item=wardrobe" class="cta-button small">View in AR</a>
       </div>
+
       <div class="product-card fade-in">
         <img src="{{ url_for('static', filename='images/desk.png') }}" alt="Study Desk">
         <h3>AR Desk</h3>
@@ -54,7 +60,7 @@
       </div>
     </div>
   </main>
-
+<button id="back-to-top" title="Back to Top">⬆</button>
   {% include 'partials/footer.html' %}
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

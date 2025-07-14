@@ -6,6 +6,7 @@
   <title>AR ALIMN | Products</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
 {% include 'partials/header.html' %}
@@ -24,57 +25,67 @@
     </div>
   </section>
 
+  <!-- Trust Banner -->
+  <section class="trust-banner fade-in">
+    <i class="fas fa-shield-alt"></i>
+    <p>100% Satisfaction Guarantee · No App Needed · Easy AR Experience</p>
+  </section>
+
   <!-- Why Choose Us Section -->
   <section class="features-section fade-in">
     <h2>Why Choose Us</h2>
-   <div class="features-grid">
-  <div class="feature-card fade-in pop-hover">
-    <i class="fas fa-couch"></i>
-    <h3>Real-Time AR</h3>
-    <p>Visualize furniture in your room using your phone's camera.</p>
-  </div>
-  <div class="feature-card fade-in pop-hover">
-    <i class="fas fa-cube"></i>
-    <h3>3D Models</h3>
-    <p>High-quality, realistic furniture models enhance your decision-making.</p>
-  </div>
-  <div class="feature-card fade-in pop-hover">
-    <i class="fas fa-smile-beam"></i>
-    <h3>User-Friendly</h3>
-    <p>Simple, intuitive interface — no app required.</p>
-  </div>
-</div>
+    <div class="features-grid">
+      <div class="feature-card fade-in pop-hover">
+        <i class="fas fa-couch"></i>
+        <h3>Real-Time AR</h3>
+        <p>Visualize furniture in your room using your phone's camera.</p>
+      </div>
+      <div class="feature-card fade-in pop-hover">
+        <i class="fas fa-cube"></i>
+        <h3>3D Models</h3>
+        <p>High-quality, realistic furniture models enhance your decision-making.</p>
+      </div>
+      <div class="feature-card fade-in pop-hover">
+        <i class="fas fa-smile-beam"></i>
+        <h3>User-Friendly</h3>
+        <p>Simple, intuitive interface — no app required.</p>
+      </div>
+    </div>
   </section>
-<!-- How It Works Section -->
-<section class="how-it-works-section fade-in">
-  <h2>How It Works</h2>
-  <div class="how-it-works-grid">
-    <div class="step-card fade-in pop-hover">
-      <h3>1. Browse Products</h3>
-      <p>Choose from our curated selection of modern furniture.</p>
-    </div>
-    <div class="step-card fade-in pop-hover">
-      <h3>2. Try AR Demo</h3>
-      <p>Use your camera to view furniture in your actual space.</p>
-    </div>
-    <div class="step-card fade-in pop-hover">
-      <h3>3. Shop Confidently</h3>
-      <p>Make informed decisions with real-time previews.</p>
-    </div>
-  </div>
-</section>
 
-<!-- Preview Video Section -->
-<section class="video-preview-section fade-in">
-  <h2>See It In Action</h2>
-  <video controls autoplay muted playsinline class="preview-video">
-    <source src="{{ url_for('static', filename='video/preview.mp4') }}" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</section>
+  <!-- How It Works Section -->
+  <section class="how-it-works-section fade-in">
+    <h2>How It Works</h2>
+    <div class="how-it-works-grid">
+      <div class="step-card fade-in pop-hover">
+        <h3>1. Browse Products</h3>
+        <p>Choose from our curated selection of modern furniture.</p>
+      </div>
+      <div class="step-card fade-in pop-hover">
+        <h3>2. Try AR Demo</h3>
+        <p>Use your camera to view furniture in your actual space.</p>
+      </div>
+      <div class="step-card fade-in pop-hover">
+        <h3>3. Shop Confidently</h3>
+        <p>Make informed decisions with real-time previews.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preview Video Section -->
+  <section class="video-preview-section fade-in">
+    <h2>See It In Action</h2>
+    <video controls autoplay muted playsinline class="preview-video">
+      <source src="{{ url_for('static', filename='video/preview.mp4') }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </section>
+
 </main>
+<button id="back-to-top" title="Back to Top">⬆</button>
 
 {% include 'partials/footer.html' %}
+<button id="back-to-top" title="Back to Top">↑</button>
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
