@@ -60,7 +60,9 @@
       </div>
     </div>
   </main>
-<button id="back-to-top" title="Back to Top">⬆</button>
+<button id="back-to-top" aria-label="Back to top">
+  <i class="fas fa-chevron-up"></i>
+</button>
   {% include 'partials/footer.html' %}
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
