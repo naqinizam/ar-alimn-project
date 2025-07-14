@@ -25,7 +25,6 @@ themeToggle?.addEventListener("click", () => {
   setTheme(current === "dark" ? "light" : "dark");
 });
 
-
 // ======================
 // 📷 AR CAMERA + OBJECT
 // ======================
@@ -36,78 +35,77 @@ let posY = 0;
 let isDragging = false;
 let startX, startY;
 let initialDistance = 0;
-let cameraStarted = false;
 
 document.addEventListener("DOMContentLoaded", () => {
+  const arButton = document.getElementById("start-ar");
   const arObject = document.getElementById("ar-object");
   const cameraFeed = document.getElementById("camera-feed");
-  const dropdown = document.getElementById("ar-item-select");
-  const arButton = document.getElementById("start-ar");
+  const dropdown = document.getElementById("ar-select");
 
-  if (!arObject || !cameraFeed || !dropdown) return;
+  if (!arButton || !arObject || !cameraFeed || !dropdown) return;
 
-  const startCameraIfNeeded = async () => {
-    if (!cameraStarted) {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" }
-        });
-        cameraFeed.srcObject = stream;
-        cameraStarted = true;
-      } catch (err) {
-        alert("Could not access camera.");
-        console.error("Camera error:", err);
-      }
-    }
-  };
-
-  const loadARObject = async (item) => {
+  // Start camera and show default object
+  arButton.addEventListener("click", async () => {
     try {
-      const res = await fetch(`/get_model?item=${item}`);
-      const data = await res.json();
-      arObject.src = data.model_url || "https://i.imgur.com/JqYeZLn.png";
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: "environment" }
+      });
+      cameraFeed.srcObject = stream;
 
-      arObject.onload = () => {
-        arObject.style.display = "block";
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            centerObject();
-          });
-        });
-      };
+      loadARObject(dropdown.value);
     } catch (err) {
-      console.error("Failed to load AR item:", err);
+      console.error("AR init failed:", err);
+      alert("Unable to start AR. Check camera permissions.");
     }
-  };
+  });
 
-  const centerObject = () => {
-    posX = (cameraFeed.offsetWidth - arObject.offsetWidth) / 2;
-    posY = (cameraFeed.offsetHeight - arObject.offsetHeight) / 2;
+  // Load selected AR object and center
+  function loadARObject(item) {
+    const src = `/static/images/${item}.png`;
+    arObject.src = src;
+
+    arObject.onload = () => {
+      arObject.style.display = "block";
+      scale = 1;
+      rotation = 0;
+
+      // Delay to wait for layout
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          centerObject();
+        });
+      });
+    };
+  }
+
+  // On dropdown change, switch item and center it
+  dropdown.addEventListener("change", () => {
+    loadARObject(dropdown.value);
+  });
+
+  // Centering logic
+  function centerObject() {
+    const containerWidth = cameraFeed.offsetWidth;
+    const containerHeight = cameraFeed.offsetHeight;
+    const objectWidth = arObject.offsetWidth;
+    const objectHeight = arObject.offsetHeight;
+
+    posX = (containerWidth - objectWidth) / 2;
+    posY = (containerHeight - objectHeight) / 2;
+
     updateObjectTransform();
-  };
+  }
 
-  const updateObjectTransform = () => {
+  // Apply current scale, position, rotation
+  function updateObjectTransform() {
     arObject.style.transform = `
       translate(${posX}px, ${posY}px)
       scale(${scale})
       rotate(${rotation}deg)
     `;
-  };
+  }
 
-  // Initial load (from dropdown or URL)
-  const itemFromURL = new URLSearchParams(window.location.search).get("item") || dropdown.value;
-  dropdown.value = itemFromURL;
-  loadARObject(itemFromURL);
-
-  // Live switching (no button needed)
-  dropdown.addEventListener("change", () => {
-    loadARObject(dropdown.value);
-  });
-
-  // Start camera when user clicks start
-  arButton?.addEventListener("click", startCameraIfNeeded);
-
-  // Drag and Touch
+  // Drag (mouse)
   arObject.addEventListener("mousedown", (e) => {
     isDragging = true;
     startX = e.clientX - posX;
@@ -125,6 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
     isDragging = false;
   });
 
+  // Drag (touch)
   arObject.addEventListener("touchstart", (e) => {
     if (e.touches.length === 1) {
       isDragging = true;
@@ -160,12 +159,14 @@ document.addEventListener("DOMContentLoaded", () => {
     isDragging = false;
   });
 
+  // Right click to rotate
   arObject.addEventListener("contextmenu", (e) => {
     e.preventDefault();
     rotation += 30;
     updateObjectTransform();
   });
 
+  // Scroll to zoom
   arObject.addEventListener("wheel", (e) => {
     e.preventDefault();
     scale = Math.min(Math.max(0.5, scale - e.deltaY * 0.01), 3);
@@ -173,9 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }, { passive: false });
 });
 
-
 // ======================
-// 👀 Fade In on Scroll
+// ✨ Fade-In on Scroll
 // ======================
 document.addEventListener("DOMContentLoaded", () => {
   const fadeElements = document.querySelectorAll(".fade-in");

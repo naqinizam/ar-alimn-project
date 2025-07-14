@@ -187,10 +187,9 @@ footer a:hover {
 #ar-object {
   display: none;
   position: absolute;
-  top: 50%;
-  left: 50%;
+  top: 0;
+  left: 0;
   width: 140px;
-  transform: translate(-50%, -50%);
   touch-action: none;
   cursor: grab;
   z-index: 2;
