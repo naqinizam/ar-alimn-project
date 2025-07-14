@@ -43,34 +43,43 @@ document.addEventListener("DOMContentLoaded", () => {
   const cameraFeed = document.getElementById("camera-feed");
   const dropdown = document.getElementById("ar-item-select");
 
-  if (!arButton || !arObject || !cameraFeed) return; // Not AR page
+  if (!arButton || !arObject || !cameraFeed) return;
 
-  // Prefill dropdown if item from URL
-  if (dropdown) {
-    const itemFromURL = new URLSearchParams(window.location.search).get("item");
-    if (itemFromURL) dropdown.value = itemFromURL;
+  // Prefill item from URL param
+  const itemFromURL = new URLSearchParams(window.location.search).get("item");
+  if (itemFromURL && dropdown) {
+    dropdown.value = itemFromURL;
   }
 
   arButton.addEventListener("click", async () => {
+    const selectedItem = dropdown?.value || "chair";
+
     try {
-      const selectedItem = dropdown?.value || "chair";
+      // Only request camera if not already running
+      if (!cameraFeed.srcObject) {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" }
+        });
+        cameraFeed.srcObject = stream;
+      }
 
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: { facingMode: "environment" }
-      });
-      cameraFeed.srcObject = stream;
-
+      // Fetch correct image for selected item
       const res = await fetch(`/get_model?item=${selectedItem}`);
       const data = await res.json();
       arObject.src = data.model_url || "https://i.imgur.com/JqYeZLn.png";
 
+      // Show and center after layout
       arObject.onload = () => {
         arObject.style.display = "block";
-        setTimeout(centerObject, 100); // Delay helps layout finish
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            centerObject();
+          });
+        });
       };
     } catch (err) {
-      console.error("AR init failed:", err);
-      alert("Unable to start AR. Check camera permissions.");
+      console.error("AR failed:", err);
+      alert("Could not access camera. Please check permissions.");
     }
   });
 
@@ -88,6 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
   }
 
+  // Drag and Touch Controls
   arObject.addEventListener("mousedown", (e) => {
     isDragging = true;
     startX = e.clientX - posX;
