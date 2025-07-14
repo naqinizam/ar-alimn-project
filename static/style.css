@@ -616,7 +616,7 @@ footer .social-icons i {
 }
 @media (max-width: 768px) {
   .header-left img {
-    height: 50px; /* Increase size on mobile */
+    height: 70px; /* Increase size on mobile */
   }
 
   header {
