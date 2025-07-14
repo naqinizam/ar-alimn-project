@@ -36,31 +36,37 @@ let posY = 0;
 let isDragging = false;
 let startX, startY;
 let initialDistance = 0;
+let cameraStarted = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-  const arButton = document.getElementById("start-ar");
   const arObject = document.getElementById("ar-object");
   const cameraFeed = document.getElementById("camera-feed");
   const dropdown = document.getElementById("ar-item-select");
+  const arButton = document.getElementById("start-ar");
 
-  if (!arButton || !arObject || !cameraFeed) return;
+  if (!arObject || !cameraFeed || !dropdown) return;
 
-  // Prefill item from URL param
-  const itemFromURL = new URLSearchParams(window.location.search).get("item");
-  if (itemFromURL && dropdown) {
-    dropdown.value = itemFromURL;
-  }
+  const startCameraIfNeeded = async () => {
+    if (!cameraStarted) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: "environment" }
+        });
+        cameraFeed.srcObject = stream;
+        cameraStarted = true;
+      } catch (err) {
+        alert("Could not access camera.");
+        console.error("Camera error:", err);
+      }
+    }
+  };
 
-  arButton.addEventListener("click", async () => {
-    const selectedItem = dropdown?.value || "chair";
-
+  const loadARObject = async (item) => {
     try {
-      // Always get new object
-      const res = await fetch(`/get_model?item=${selectedItem}`);
+      const res = await fetch(`/get_model?item=${item}`);
       const data = await res.json();
       arObject.src = data.model_url || "https://i.imgur.com/JqYeZLn.png";
 
-      // Re-center when object loads
       arObject.onload = () => {
         arObject.style.display = "block";
         requestAnimationFrame(() => {
@@ -69,35 +75,39 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         });
       };
-
-      // Start camera only once
-      if (!cameraFeed.srcObject) {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" }
-        });
-        cameraFeed.srcObject = stream;
-      }
     } catch (err) {
-      console.error("AR failed:", err);
-      alert("Could not access camera. Please check permissions.");
+      console.error("Failed to load AR item:", err);
     }
-  });
+  };
 
-  function centerObject() {
+  const centerObject = () => {
     posX = (cameraFeed.offsetWidth - arObject.offsetWidth) / 2;
     posY = (cameraFeed.offsetHeight - arObject.offsetHeight) / 2;
     updateObjectTransform();
-  }
+  };
 
-  function updateObjectTransform() {
+  const updateObjectTransform = () => {
     arObject.style.transform = `
       translate(${posX}px, ${posY}px)
       scale(${scale})
       rotate(${rotation}deg)
     `;
-  }
+  };
 
-  // Drag and Touch Controls
+  // Initial load (from dropdown or URL)
+  const itemFromURL = new URLSearchParams(window.location.search).get("item") || dropdown.value;
+  dropdown.value = itemFromURL;
+  loadARObject(itemFromURL);
+
+  // Live switching (no button needed)
+  dropdown.addEventListener("change", () => {
+    loadARObject(dropdown.value);
+  });
+
+  // Start camera when user clicks start
+  arButton?.addEventListener("click", startCameraIfNeeded);
+
+  // Drag and Touch
   arObject.addEventListener("mousedown", (e) => {
     isDragging = true;
     startX = e.clientX - posX;
